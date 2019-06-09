@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ESZI Órarend</title>
+        <link rel="stylesheet" type="text/css" href="main.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <meta name="theme-color" content="#0066ff">
+        
+    </head>
+    <body>
+        <div id="head">
+            <img id="logo" src="logo.png" height="50px">
+            <span id="logo_text" class="noselect">Órarend</span>
+        </div>
+        <div id="content">
+            
+        </div>
+        <div id="actionbar">
+            <button class="day_nav left" onclick="goleft()">
+                <i class="material-icons">chevron_left</i>
+            </button>
+            <a id="daynameplusclass"></a>
+            <button class="day_nav right" onclick="goright()">
+                <i class="material-icons">chevron_right</i>
+            </button>
+        </div>
+        <script src="main.js"></script>
+        <script src="hammer.min.js"></script>
+        <script src="gestures.js"></script>
+    </body>
+</html>
