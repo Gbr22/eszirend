@@ -21,17 +21,31 @@ module.exports = function(){
         body = body.replace(/l\.getComputedTextLength/g,"window.getDummyWidth");
         let classes = JSON.parse('['+body.split(`"classes":[`)[1].split("]")[0]+']');
         console.log(classes);
-        
+        let done = 0;
         for (let i=0; i < classes.length; i++){
-            let out = await getSVG(classes[i]);
+            getSVG(classes[i]).then((out)=>{
+                classes[i] = {
+                    id:classes[i],
+                    display:out.class
+                }
+                done++;
+                
+                let newClasses = [];
+                for (let j=0; j < classes.length; j++){
+                    if (typeof classes[j] == "object"){
+                        newClasses.push(classes[j]);
+                        
+                    }
+                }
+                console.log("new",newClasses);
+                fs.writeFileSync("public/classes.json",JSON.stringify(newClasses));
+                
+                
+            });
             
-            classes[i] = {
-                id:classes[i],
-                display:out.class
-            }
+            
         }
-        console.log("new",classes);
-        fs.writeFileSync("public/classes.json",JSON.stringify(classes));
+        
         
         
     });
