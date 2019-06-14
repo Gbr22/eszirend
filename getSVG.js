@@ -16,7 +16,7 @@ module.exports = function(classid){
             let classes = JSON.parse('['+body.split(`"classes":[`)[1].split("]")[0]+']');
             console.log(classes);
             
-            const dom = new JSDOM(body, {
+            let dom = new JSDOM(body, {
                 url: url,
                 referrer: url,
                 runScripts: "dangerously",
@@ -38,14 +38,19 @@ module.exports = function(classid){
             });
             
             let get = [];
-            let inter = setInterval(function(){
+            let inter = setInterval(async function(){
                 
                 if (get.length == 0){
                     get = dom.window.document.querySelectorAll("svg");
                 } else {
                     clearInterval(inter);
                     console.log("found");
-                    let table = gentable(get[0],dom);
+                    let table = gentable(get[0]);
+                    await dom.window.close();
+                    global.gc();
+                    console.log("Garbage collected!");
+                    
+                    get = undefined;
                     fs.writeFileSync("public/tables/"+classid.toString().replace("*","star")+".json",JSON.stringify(table) );
                     resolve(table);
                 }
