@@ -26,12 +26,7 @@ if (pos > 4){
 let className = "";
 let prevScroll = 0;
 let scrolling = false;
-function dayscroll(){
-    document.getElementById("daynameplusclass").innerHTML = className+" - "+daynames[pos];
-    
-    requestAnimationFrame(dayscroll);
-}
-dayscroll();
+
 function scrollToPosition(){
     let days = document.getElementsByClassName("day");
     for (let i=0; i < days.length; i++){
@@ -51,23 +46,7 @@ function scrollToPosition(){
         behavior: 'smooth'
     });*/
 }
-function goleft(){
-    pos--;
-    if (pos < 0){
-        pos = 0;
-    }
-    scrollToPosition();
-        
-    
-}
-function goright(){
-    
-    pos++;
-    if (pos > 4){
-        pos = 4;
-    }
-    scrollToPosition();
-}
+
 window.onpopstate = function(event) {
     console.log("pop",window.location);
     if (window.location.hash == ""){
@@ -226,13 +205,21 @@ async function openTable(id){
             
             
         }
+
         cont.appendChild(elem);
-        document.getElementById("actionbar").classList.add("show");
+
+        //document.getElementById("actionbar").classList.add("show");
         scrollToPosition();
     }
+    {
+        let elem = document.createElement("div");
+        elem.classList.add("day");
+        cont.appendChild(elem);
+    }
+    
 }
 function loadMainPage(){
-    document.getElementById("actionbar").classList.remove("show");
+    //document.getElementById("actionbar").classList.remove("show");
     document.getElementById("content").innerHTML = "";
     for (let i=0; i < classes.length; i++){
         let elem = document.createElement("span");
