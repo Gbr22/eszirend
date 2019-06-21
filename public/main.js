@@ -1,5 +1,7 @@
 window.location.hash = "";
 
+var loadingTable = false;
+
 function fetchJSON(url){
     return new Promise(function(resolve,reject){
         var xhttp = new XMLHttpRequest();
@@ -97,13 +99,21 @@ function getBiggestClassHeight(row){
     return h;
 }
 async function openTable(id){
+    if (loadingTable){
+        return;
+    }
+
     for (let i=0; i < classes.length; i++){
         if (classes[i].id == id){
             className = classes[i].display;
         }
     }
     let url = "tables/"+id.toString().replace("*","star")+".json";
+    loadingTable = true;
+    document.getElementById("loader").classList.remove("hidden");
     let json = await fetchJSON(url);
+    loadingTable = false;
+    document.getElementById("loader").classList.add("hidden");
     window.location.hash = "class/"+id;
     console.log(json);
     

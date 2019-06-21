@@ -327,3 +327,81 @@ body {
     height: min-content;
     font-size: 25px;
 }
+#loader {
+    position: fixed;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: #455061;
+    overflow: hidden;
+}
+#loader {
+    --size: 15px;
+    --halfsize: calc( var(--size) / 2);
+    --transX: translateX(calc(-1 * var(--halfsize)));
+    --out: 5px;
+    --speed: 1s;
+    --half-time: calc(var(--speed) / 2);
+    --hal-of-half-time: calc(var(--half-time) / 2);
+    --percent-75-time: calc(var(--half-time) + var(--hal-of-half-time));
+    --time1: calc(-1 * var(--half-time));
+    --time2: calc(-1 * var(--percent-75-time));
+    --time3: calc(-1 * var(--speed));
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.3s;
+}
+#loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+#loader i {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-radius: 50%;
+    background-color: white;
+    content: '';
+    display: block;
+    margin: auto;
+    
+    width: var(--size);
+    height: var(--size);
+    transform: var(--transX);
+    animation: upanddown var(--speed) infinite;
+    animation-timing-function: ease-in-out;
+    
+    
+}
+#dot1 {
+    left: 25%;
+    
+    animation-delay: var(--time1) !important;
+}
+#dot2 {
+    left: 50%;
+    
+    animation-delay: var(--time2) !important;
+    
+}
+#dot3 {
+    left: 75%;
+    
+    animation-delay: var(--time3) !important;
+}
+
+@keyframes upanddown {
+    0% {
+        transform: var(--transX) translateY(calc(-1 * var(--out)));
+    }
+    50% {
+        transform: var(--transX) translateY(var(--out));
+    }
+    100% {
+        transform: var(--transX) translateY(calc(-1 * var(--out)));
+    }
+}
