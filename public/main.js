@@ -72,7 +72,30 @@ function getFirstLetter(word){
     }
     return word;
 }
+function isBigRow(row){
+    if (row.length >= 3 ){
+        let smallList = ["Angol nyelv","Német nyelv","Magyar nyelv szövegértés"];
+        let contains = false;
+        for (let i=0; i < smallList.length; i++){
+            if ( row[0].subject == smallList[i] ){
+                contains = true;
+            }
+        }
+        return contains;
 
+    }
+    return false;
+}
+function getBiggestClassHeight(row){
+    let h = -Infinity; //height
+    for (let i = 0; i < row.length; i++) {
+        const e = row[i];
+        if (e.classLength > h){
+            h = e.classLength;
+        }
+    }
+    return h;
+}
 async function openTable(id){
     for (let i=0; i < classes.length; i++){
         if (classes[i].id == id){
@@ -135,19 +158,35 @@ async function openTable(id){
         }
         for (let j =0; j < t.length; j++){
             //t[j] : row in day
-            
+            //type: Array
             
             let row = document.createElement("div");
             row.classList.add("row");
             elem.appendChild(row);
             let toosmall = false;
-            if (t[j].length >= 4 ){
+            
+            
+            
+            if (isBigRow(t[j])){
+                
                 toosmall = true;
+
+                
+                let rowheight = getBiggestClassHeight(t[j]);
+                
+                
+
                 row.classList.add("toosmall");
                 let row_inner = document.createElement("span");
                 row_inner.classList.add("row_inner");
+                row_inner.style.setProperty("--height",rowheight);
                 row.appendChild(row_inner);
-                row = row_inner;
+
+                let row_inner_content = document.createElement("span");
+                row_inner_content.classList.add("row_inner_content");
+                row_inner.appendChild(row_inner_content);
+
+                row = row_inner_content;
             }
             
             for (let k=0; k < t[j].length; k++){
@@ -196,8 +235,8 @@ async function openTable(id){
                 `;
                 class_elem.classList.add("class");
                 
-                class_elem.style.width = `calc(${class_.width}% - ${settings.padding})`;
-                class_elem.style.height = `calc(${class_.classLength*100}% - ${settings.padding})`;
+                class_elem.style.width = `calc(${class_.width}% - var(--padding))`;
+                class_elem.style.setProperty("--height",class_.classLength);
                 class_elem.style.left = class_.x+"%";
                 row.appendChild(class_elem);
             }
