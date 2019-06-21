@@ -285,3 +285,8 @@ function loadMainPage(){
     classes = await fetchJSON("classes.json");
     loadMainPage();
 })()
+
+
+function toggleHelp(){
+    document.getElementById("help_win").classList.toggle("hidden");
+}

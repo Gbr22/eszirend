@@ -13,6 +13,11 @@
         <div id="head">
             <img id="logo" src="logo.png" height="50px">
             <span id="logo_text" class="noselect">Órarend</span>
+            <button id="help" onclick="toggleHelp()">
+                <i class="material-icons">
+                    help_outline
+                </i>
+            </button>
         </div>
         <div id="content">
             
@@ -23,6 +28,34 @@
             <i id="dot3"></i>
             
         </span>
+        <div id="help_win" class="hidden">
+            <div id="help_head">
+                <span id="help_title">Súgó</span>
+                <button id="close_help" onclick="toggleHelp()">
+                    <i class="material-icons">
+                        close
+                    </i>
+                </button>
+            </div>
+            <span id="help_content" >
+                <ul>
+                    <li>
+                        <i class="material-icons">
+                            cast
+                        </i>
+                        <span>Interaktív terem</span>
+                    </li>
+                    <li>
+                        <i class="material-icons">
+                            desktop_windows
+                        </i>
+                        <span>Gépterem</span>
+                    </li>
+                </ul>
+                <p id="credit">Az oldalt készítette: <a href="https://gbr22.tk" target="_blank">Kriskó Gábor</a></p>
+            </span>
+            
+        </div>
         <script src="main.js"></script>
         
     </body>

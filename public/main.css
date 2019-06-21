@@ -3,6 +3,9 @@ body {
     background-color: #f0f0f0;
     font-family: 'Montserrat', sans-serif;
 }
+input, button {
+    outline: none;
+}
 :root {
     --theme-color: #0066ff;
     --table-width: calc(90vw - 50px);
@@ -10,7 +13,8 @@ body {
     --row-height: 80px;
 }
 #head {
-    height: 45px;
+    position: relative;
+    height: 40px;
     width: 100%;
     background-color: var(--theme-color);
     background: linear-gradient(to right, var(--theme-color) , #3366ff);
@@ -27,7 +31,7 @@ body {
 }
 #logo_text {
     color: white;
-    font-size: 30px;
+    font-size: 27px;
     font-weight: bold;
     font-family: 'Montserrat', sans-serif;
     font-style: italic;
@@ -404,4 +408,112 @@ body {
     100% {
         transform: var(--transX) translateY(calc(-1 * var(--out)));
     }
+}
+
+
+#help {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    outline: none;
+    border: none;
+    background: transparent;
+    height: max-content;
+    width: max-content;
+}
+#help i {
+    color: white;
+    font-size: 30px;
+    transition: text-shadow 0.5s;
+}
+#help:hover i {
+    text-shadow: 0px 0px 3px white;
+}
+#help_head {
+    width: 100%;
+    height: max-content;
+    background-color: var(--theme-color);
+    position: relative;
+}
+#close_help {
+    height: max-content;
+    width: max-content;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background: transparent;
+    border: none;
+}
+#close_help i {
+    color: white;
+    font-size: 28px;
+}
+#help_title {
+    font-size: 25px;
+    color: white;
+    padding: 5px;
+    margin-left: 8px;
+    font-weight: bold;
+    display: inline-block;
+}
+#help_win {
+    position: fixed;
+    width: max-content;
+    height: max-content;
+    max-width: 90vw;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: white;
+    box-shadow: 0 .5rem 2rem rgba(0,0,0,.3);
+    border-radius: 10px;
+    overflow: hidden;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s, transform 0.5s;
+    transform: scale(1);
+}
+#help_win.hidden {
+    transition: opacity 0.5s, transform 0.5s;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.7);
+    
+}
+#help_content {
+    padding: 0.5vw;
+    padding-bottom: 0;
+    display: block;
+}
+#help_win ul {
+    list-style: none;
+}
+#help_win li i {
+    font-size: 30px;
+    display: inline-block;
+}
+#help_win li span {
+    font-size: 25px;
+    vertical-align: top;
+    display: inline-block;
+    padding-right: 10px;
+}
+#credit {
+    font-size: 22px;
+    margin: 0;
+    padding: 10px;
+    display: inline-block;
+    text-align: right;
+}
+#credit a {
+    color: var(--theme-color);
+}
+#credit a:hover {
+    opacity: 0.7;
 }
