@@ -198,7 +198,7 @@ body {
     overflow:auto;
     
     position: relative;
-    transform: translateX( calc(calc(-100% / 5) * var(--table-scroll-index)) );
+    
     transition: all 0.5s;
     transition-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
     will-change: transform;
