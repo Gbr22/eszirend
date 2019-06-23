@@ -49,6 +49,18 @@ function scrollToPosition(){
     });*/
 }
 
+let loop = function(){
+    if (document.getElementById("dayswrap") != undefined){
+        let precent = document.getElementById("dayswrap").scrollLeft / document.getElementById("dayswrap").scrollWidth
+        let pos = document.getElementById("daynames_wrap").scrollWidth * precent * -1;
+        document.getElementById("daynames_wrap").style.transform = "translateX("+pos+"px)";
+    }
+    requestAnimationFrame(loop);
+}
+
+loop();
+
+
 window.onpopstate = function(event) {
     console.log("pop",window.location);
     if (window.location.hash == ""){
@@ -257,7 +269,7 @@ async function openTable(id){
 
         cont.appendChild(elem);
 
-        //document.getElementById("actionbar").classList.add("show");
+        document.getElementById("actionbar").classList.add("show");
         scrollToPosition();
     }
     {
@@ -268,7 +280,7 @@ async function openTable(id){
     
 }
 function loadMainPage(){
-    //document.getElementById("actionbar").classList.remove("show");
+    document.getElementById("actionbar").classList.remove("show");
     document.getElementById("content").innerHTML = "";
     for (let i=0; i < classes.length; i++){
         let elem = document.createElement("span");
