@@ -3,6 +3,9 @@ body {
     background-color: #f0f0f0;
     font-family: 'Montserrat', sans-serif;
 }
+* {
+    -webkit-tap-highlight-color: transparent; 
+}
 input, button {
     outline: none;
 }
@@ -104,7 +107,13 @@ input, button {
 
     visibility: visible;
     transition: all 0s;
-    
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
 .day.show {
     visibility: visible;
@@ -126,6 +135,24 @@ input, button {
     border-radius: 5px;
     transition: none;
     min-width: unset;
+    transition: all .5s;
+    box-shadow: 0 0 0 0px red;
+}
+.class:hover::before {
+    opacity: 0.2;
+}
+
+.class::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '';
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.5s;
 }
 .row.toosmall {
     overflow-y: visible;
@@ -185,6 +212,7 @@ input, button {
     right: -25px;
     color: #242424;
     font-size: 23px;
+    top: -2px;
 }
 .teacher {
     position: absolute;
@@ -543,4 +571,82 @@ input, button {
 }
 #credit a:hover {
     opacity: 0.7;
+}
+#classViewer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 90vw;
+    height: max-content;
+    max-height: 90vw;
+    border-radius: 8px;
+    background: #e4e4e4;
+    box-shadow: 0 .5rem 2rem rgba(0,0,0,.35)!important;
+    padding: 25px;
+    padding-left: 0;
+    padding-right: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20%);
+    transition: all 0s;
+}
+#classViewer.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: all 0.5s;
+}
+#class_subject {
+    text-align: center;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+#class_hour {
+    display: block;
+    text-align: center;
+    margin-top: 3px;
+    font-size: 22px;
+    margin-bottom: 0;
+}
+#class_time {
+    display: block;
+    text-align: center;
+    margin-top: 3px;
+    font-size: 28px;
+}
+#infoblock span {
+    font-size: 22px;
+    margin: 5px;
+    display: inline;
+}
+#infoblock {
+    text-align: center;
+    padding: 8px;
+}
+#infoblock i {
+    vertical-align: text-top;
+}
+#infoblock a {
+    font-weight: bold;
+}
+#classViewCover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.35);
+    opacity: 0;
+    visibility: hidden;
+}
+#classViewCover.show {
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.5s;
+}
+#class_classroom {
+    display: inline-block;
 }

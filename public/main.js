@@ -69,7 +69,7 @@ window.onpopstate = function(event) {
     } else if (window.location.hash.indexOf("#class/") == 0){
         openTable(window.location.hash.replace("#class/","") );
     }
-    
+    closeClassView();
 };
 function getFirstLetter(word){
     let doubleLetters = ["Cs","Dz","Dzs","Gy","Ly","Ny","Sz","Ty","Zs"];
@@ -109,6 +109,93 @@ function getBiggestClassHeight(row){
         }
     }
     return h;
+}
+var times = [
+    {//0
+        start:"7:00",
+        length: 45
+    },
+    {//1
+        start:"7:50",
+        length: 45
+    },
+    {//2
+        start:"8:45",
+        length: 45
+    },
+    {//3
+        start:"9:40",
+        length: 45
+    },
+    {//4
+        start:"10:35",
+        length: 45
+    },
+    {//5
+        start:"11:35",
+        length: 45
+    },
+    {//6
+        start:"12:35",
+        length: 45
+    },
+    {//7
+        start:"13:30",
+        length: 45
+    },
+    {//8
+        start:"14:20",
+        length: 45
+    },
+    {//9
+        start:"15:10",
+        length: 45
+    },
+    {//10
+        start:"16:00",
+        length: 45
+    },
+    {//11
+        start:"16:50",
+        length: 45
+    },
+    {//12
+        start:"17:40",
+        length: 45
+    },
+    {//13
+        start:"18:30",
+        length: 45
+    },
+];
+function assignCopy(src) {
+    return Object.assign({}, src);
+}
+function getHourInfo(hour){
+    let formatMinute = function(m){
+        if (m < 10){
+            return "0"+m;
+        } else {
+            return ""+m;
+        }
+    }
+
+    let info = assignCopy(times[hour]);
+    info.start_hour = parseFloat(info.start.split(":")[0] );
+    info.start_minute = parseFloat(info.start.split(":")[1] );
+    info.start_in_minutes = info.start_hour*60 + info.start_minute;
+    info.end_in_minutes = info.start_in_minutes+info.length;
+    info.end_hour = Math.floor(info.end_in_minutes/60);
+    info.end_minute = info.end_in_minutes - info.end_hour*60;
+    info.end = info.end_hour+":"+formatMinute(info.end_minute);
+    return info;
+}
+document.getElementById("classViewCover").onclick = function(){
+    closeClassView();
+}
+function closeClassView(){
+    document.getElementById("classViewer").classList.remove("show");
+    document.getElementById("classViewCover").classList.remove("show");
 }
 async function openTable(id){
     if (loadingTable){
@@ -260,6 +347,35 @@ async function openTable(id){
                 class_elem.style.width = `calc(${class_.width}% - var(--padding))`;
                 class_elem.style.setProperty("--height",class_.classLength);
                 class_elem.style.left = class_.x+"%";
+
+                class_elem.onclick = function(){
+                    console.log(class_);
+                    document.getElementById("class_subject").innerHTML = class_.subject;
+                    document.getElementById("class_classroom").innerHTML = formatClassRoom(class_.classroom);
+                    document.getElementById("class_group").innerHTML = class_.group;
+                    let classStart = j;
+                    let classEnd = j;
+                    let hour = j;
+                    
+                    if (class_.classLength > 1){
+                        classEnd += class_.classLength-1;
+                        hour += "-"+classEnd;
+                    }
+
+                    hour+=". óra";
+                    document.getElementById("class_teacher").innerHTML = class_.teacher;
+                    document.getElementById("class_hour").innerHTML = hour;
+                    document.getElementById("class_time").innerHTML = getHourInfo(classStart).start + " - " + getHourInfo(classEnd).end;
+                    if (colors[class_.group] != undefined){
+                        document.getElementById("classViewer").style.backgroundColor = colors[class_.group];
+                    } else {
+                        document.getElementById("classViewer").style.backgroundColor = "#e4e4e4";
+                    }
+                    
+                    document.getElementById("classViewer").classList.add("show");
+                    document.getElementById("classViewCover").classList.add("show");
+                }
+
                 row.appendChild(class_elem);
             }
             
