@@ -1,3 +1,11 @@
+if('serviceWorker' in navigator) {
+    navigator.serviceWorker
+        .register('/sw.js')
+        .then(function() { console.log("Service Worker Registered"); });
+}
+
+
+
 window.location.hash = "";
 
 var loadingTable = false;
@@ -13,7 +21,12 @@ function fetchJSON(url){
             }
         };
         xhttp.open("GET", url, true);
-        xhttp.send();
+        try {
+            xhttp.send();
+        } catch(err) {
+            reject("Failed to send request");
+        }
+        
     })
 }
 let classes = [];
@@ -48,6 +61,7 @@ function scrollToPosition(){
         behavior: 'smooth'
     });*/
 }
+var wasOnline = navigator.onLine;
 
 let loop = function(){
     if (document.getElementById("dayswrap") != undefined){
@@ -55,6 +69,17 @@ let loop = function(){
         let pos = document.getElementById("daynames_wrap").scrollWidth * precent * -1;
         document.getElementById("daynames_wrap").style.transform = "translateX("+pos+"px)";
     }
+
+    if (wasOnline != navigator.onLine){
+        if (navigator.onLine){
+            document.getElementById("offline").setAttribute("class","");
+        } else {
+            document.getElementById("offline").setAttribute("class","show");
+        }
+
+        wasOnline = navigator.onLine;
+    }
+
     requestAnimationFrame(loop);
 }
 
