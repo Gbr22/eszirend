@@ -47,8 +47,7 @@ module.exports = function(classid){
                     console.log("found");
                     let table = gentable(get[0]);
                     await dom.window.close();
-                    global.gc();
-                    console.log("Garbage collected!");
+                    
                     
                     get = undefined;
                     fs.writeFileSync("public/tables/"+classid.toString().replace("*","star")+".json",JSON.stringify(table) );

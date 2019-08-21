@@ -2,7 +2,7 @@ let generate = require("./generate");
 
 const express = require('express')
 const app = express()
- 
+
 let minutes = 25;
 setInterval(() => {
     generate();
