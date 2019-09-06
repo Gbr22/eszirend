@@ -413,11 +413,6 @@ async function openTable(id){
         document.getElementById("actionbar").classList.add("show");
         scrollToPosition();
     }
-    {
-        let elem = document.createElement("div");
-        elem.classList.add("day");
-        cont.appendChild(elem);
-    }
     
 }
 function loadMainPage(){
