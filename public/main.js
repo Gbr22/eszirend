@@ -238,6 +238,7 @@ async function openTable(id){
     let json = await fetchJSON(url);
     loadingTable = false;
     document.getElementById("loader").classList.add("hidden");
+
     window.location.hash = "class/"+id;
     console.log(json);
     
@@ -265,6 +266,7 @@ async function openTable(id){
     document.getElementById("content").appendChild(window_);
     
     let cont = dayswrap; //container
+    
     
     
     for (let i=0; i < json.timetable.length; i++){
@@ -410,7 +412,7 @@ async function openTable(id){
 
         cont.appendChild(elem);
 
-        document.getElementById("actionbar").classList.add("show");
+        
         scrollToPosition();
     }
     {
@@ -419,10 +421,15 @@ async function openTable(id){
         cont.appendChild(elem);
     }
     
+    requestAnimationFrame(function(){
+        document.body.classList.add("table_view");
+    });
+    
+    
 }
 function loadMainPage(){
-    document.getElementById("actionbar").classList.remove("show");
-    document.getElementById("content").innerHTML = "";
+    document.body.classList.remove("table_view");
+    document.getElementById("tables").innerHTML = "";
     for (let i=0; i < classes.length; i++){
         let elem = document.createElement("span");
         elem.classList.add("classSelector");
@@ -431,8 +438,9 @@ function loadMainPage(){
         elem.onclick = function(){
             openTable(id);
         }
-        document.getElementById("content").appendChild(elem);
+        document.getElementById("tables").appendChild(elem);
     }
+    
 }
 (async ()=>{
     classes = await fetchJSON("classes.json");

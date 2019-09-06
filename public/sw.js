@@ -39,8 +39,8 @@ function preCache(){
 }
 
 self.addEventListener('install', function(e) {
-    
-    e.waitUntil(preCache());
+    preCache();
+    //e.waitUntil(preCache());
 });
 
 function fetchResource(req){

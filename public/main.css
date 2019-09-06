@@ -1,8 +1,4 @@
-body {
-    margin: 0;
-    background-color: #f0f0f0;
-    font-family: 'Montserrat', sans-serif;
-}
+
 * {
     -webkit-tap-highlight-color: transparent; 
 }
@@ -10,22 +6,75 @@ input, button {
     outline: none;
 }
 :root {
-    --theme-color: #0066ff;
-    --table-width: calc(90vw - 50px);
+    --gray-100: #f8f9fa;
+    --gray-200: #e9ecef;
+    --gray-300: #dee2e6;
+    --gray-400: #ced4da;
+    --gray-500: #adb5bd;
+    --gray-600: #6c757d;
+    --gray-700: #495057;
+    --gray-800: #343a40;
+    --gray-900: #212529;
+
+    /*--theme-color: #0066ff;*/
+    --table-width: calc(95vw - 40px);
     --table-scroll-index: 0;
     --row-height: 80px;
 }
+#mainbg {
+    background: #56CCF2;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #2F80ED, #56CCF2);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #2F80ED, #56CCF2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    width: 100%;
+    text-align: center;
+    padding: 0px;
+    padding-left: 0;
+    padding-right: 0;
+}
+#titlebox {
+    background-color: white;
+    width: max-content;
+    padding: 25px 30px;
+    border-radius: 10px;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.10)!important;
+    display: inline-block;
+    transform: translateY(50%);
+}
+#titlebox h1 {
+    margin: 0;
+    font-weight: normal;
+    font-size: 22px;
+    color: var(--gray-600);
+}
+
 #head {
     position: fixed;
     top: 0;
     left: 0;
-    height: 45px;
     width: 100%;
-    background-color: var(--theme-color);
-    background: var(--theme-color);
+    /*background-color: rgb(241, 241, 241);*/
+    
     text-align: center;
-    box-shadow: 0 .5rem 2rem rgba(0,0,0,.15)!important;
+    /*box-shadow: 0 .5rem 2rem rgba(0,0,0,.15)!important;*/
+    border-radius: 15px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
     z-index: 9;
+}
+#head h1 {
+    font-size: 25px;
+    margin: 10px;
+    font-weight: normal;
+}
+body {
+    margin: 0;
+    background-color: var(--gray-200);
+    font-family: 'Montserrat', sans-serif;
+    
+}
+#title, h1{
+    /*font-family: Helvetica, sans-serif;*/
 }
 #logo {
     --padding: 10px;
@@ -41,12 +90,41 @@ input, button {
     font-family: 'Montserrat', sans-serif;
     font-style: italic;
 }
+
+#tables {
+    text-align: center;
+    margin-top: 50px;
+}
+.table_view {
+    overflow: hidden;
+}
+.table_view #table_viewer {
+    transform: translateZ(0) translateY(0);
+    transition: transform 0.5s ease-out;
+}
+#table_viewer {
+    background-color: white;
+    box-shadow: 0 .5rem 2rem rgba(0,0,0,.15)!important;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    transform: translateZ(0) translateY(100%);
+    transition: transform 0.5s ease-out;
+    overflow: auto;
+    will-change: transform;
+}
 #content {
-    margin-top: 60px;
+    margin-top: 15px;
     padding: 0 15px;
+    padding-left: 0;
+    padding-right: 0;
     text-align: center;
     position: relative;
-    padding-bottom: 70px;
+    padding-bottom: 0px;
     height: max-content;
 }
 .classSelector {
@@ -100,7 +178,6 @@ input, button {
     width: var(--table-width);
     
     display: inline-block;
-    background-color: #ffffff;
     
     vertical-align: top;
     position: relative;
@@ -255,7 +332,6 @@ input, button {
     scroll-snap-type: x mandatory;
     height: min-content;
     text-align: left;
-    background-color: #ffffff;
 }
 #window {
     width: var(--table-width);
@@ -263,15 +339,15 @@ input, button {
     margin: auto;
     overflow: hidden;
     position: relative;
-    box-shadow: 0 .5rem 2rem rgba(0,0,0,.3)!important;
+    /* box-shadow: 0 .5rem 2rem rgba(0,0,0,.3)!important; */
     border-radius: 8px;
     display: inline-block;
 }
 #time {
     display: inline-block;
     float: left;
-    box-shadow: 0 .5rem 2rem rgba(0,0,0,.3)!important;
-    background-color: #ffffff;
+    /* box-shadow: 0 .5rem 2rem rgba(0,0,0,.3)!important;
+    background-color: #ffffff; */
     margin-top: 95px;
     border-radius: 8px;
 }
@@ -303,6 +379,7 @@ input, button {
 }
 
 #actionbar {
+    display: none;
     position: fixed;
     bottom: 0;
     background-color: #cacaca;
@@ -511,9 +588,15 @@ input, button {
     background: transparent;
     height: max-content;
     width: max-content;
+    font-size: 20px;
+    margin-right: 5px;
+    border-radius: 50%;
+    border: 1px solid black;
+    width: 28px;
+    height: 28px;
 }
 #help i {
-    color: white;
+    color: black;
     font-size: 30px;
     transition: text-shadow 0.5s;
 }
