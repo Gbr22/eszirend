@@ -277,7 +277,7 @@ input, button {
     float: left;
     box-shadow: 0 .5rem 2rem rgba(0,0,0,.3)!important;
     background-color: #ffffff;
-    margin-top: 82.5px;
+    margin-top: 0;
     border-radius: 8px;
 }
 .time_e {
@@ -305,6 +305,7 @@ input, button {
     width: max-content;
     margin: auto;
     font-size: 30px;
+    display: none;
 }
 
 #actionbar {
