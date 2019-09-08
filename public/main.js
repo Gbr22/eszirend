@@ -223,6 +223,8 @@ function closeClassView(){
     document.getElementById("classViewCover").classList.remove("show");
 }
 async function openTable(id){
+
+
     if (loadingTable){
         return;
     }
@@ -236,6 +238,7 @@ async function openTable(id){
     loadingTable = true;
     document.getElementById("loader").classList.remove("hidden");
     let json = await fetchJSON(url);
+    let display = json.class;
     loadingTable = false;
     document.getElementById("loader").classList.add("hidden");
     window.location.hash = "class/"+id;
@@ -351,21 +354,75 @@ async function openTable(id){
                     name = nameArr.join(" ");
                     return name;
                 }
-                let colors = {
-                    "Inf.":"#0099ff",
-                    "Körny.":"#00ff99",
-                    "Csop1":"#0066cc",
-                    "Csop2":"#ff5050",
-                    "Közg.":"#ffcccc",
-                    "Ügyv.":"#ccffcc"
+                
+                
+                function formatGroup(g){
+                    let shorts = {
+                        "Angol":"Ang",
+                        "Német":"Ném",
+                        "Környezetvédelem":"♻️",
+                        "Informatika":"🖱️",
+                        "Ügyvitel":"Ügyv",
+                        "Közgazdaság":"Közg",
+                        "Csoport":"Csop"
+                    }
+                    console.log("display",display);
+                    let out = (g).replace("all","")
+                    .replace(display,"");
+                    for (p in shorts){
+                        out = out.replace(p,shorts[p]);
+                        out = out.replace(p.toLowerCase(),shorts[p]);
+                    }
+                    function trimToLang(langGroup){
+                        let index = out.indexOf(langGroup)
+                        if (index != -1){
+                            out = out.slice(index,index+langGroup.length+1);
+                        }
+                    }
+                    trimToLang("Ang");
+                    trimToLang("Ném");
+                    if (out.indexOf("mindennapos") != -1){
+                        out = "";
+                    }
+                    
+                    return out;
                 }
-                class_elem.style.backgroundColor = colors[class_.group];
+                function getColor(group){
+                    let color = null;
+                    let aliases = {
+                        "Informatika":"inf",
+                        "Környezetvédelem":"körny",
+                        "Ügyvitel":"ügyv",
+                        "Közgazdaság":"közg",
+                        "Csoport 1":"csop1",
+                        "Csoport 2":"csop2",
+
+                        "Infó":"inf",
+                        "Körny":"körny",
+                    }
+                    let colors = {
+                        "inf":"#0099ff",
+                        "körny":"#00ff99",
+                        "csop1":"#1a8cff",
+                        "csop2":"#ff6666",
+                        "közg":"#ffcccc",
+                        "ügyv":"#ccffcc"
+                    }
+                    for (p in aliases){
+                        if (group.indexOf(p) != -1 || group.indexOf(p.toLowerCase()) != -1){
+                            return colors[aliases[p]];
+                        }
+                    }
+                }
+                if (getColor(class_.group)){
+                    class_elem.style.backgroundColor = getColor(class_.group);
+                }
+                
                 class_elem.innerHTML = `
                 <a class="className">${class_.subject}</a>
                 <a class="classRoom">${formatClassRoom(class_.classroom)}</a>
                 <a class="teacher">${shorten(class_.teacher)}</a>
-                <a class="group">${(class_.group).replace("all","").replace("Angol ABC","A").replace("Német ABC","N")
-                    .replace("ABC szöv","/")}</a>
+                <a class="group">${formatGroup(class_.group)}</a>
                 `;
                 class_elem.classList.add("class");
                 
@@ -391,8 +448,8 @@ async function openTable(id){
                     document.getElementById("class_teacher").innerHTML = class_.teacher;
                     document.getElementById("class_hour").innerHTML = hour;
                     document.getElementById("class_time").innerHTML = getHourInfo(classStart).start + " - " + getHourInfo(classEnd).end;
-                    if (colors[class_.group] != undefined){
-                        document.getElementById("classViewer").style.backgroundColor = colors[class_.group];
+                    if (getColor(class_.group)){
+                        document.getElementById("classViewer").style.backgroundColor = getColor(class_.group);
                     } else {
                         document.getElementById("classViewer").style.backgroundColor = "#e4e4e4";
                     }
@@ -424,7 +481,7 @@ function loadMainPage(){
         elem.innerHTML = "<a>"+classes[i].display+"</a>";
         let id = classes[i].id;
         elem.onclick = function(){
-            openTable(id);
+            openTable(id,classes[i].display);
         }
         document.getElementById("content").appendChild(elem);
     }
