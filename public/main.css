@@ -84,8 +84,11 @@ input, button {
     bottom: 0;
     margin: auto;
     font-size: calc(4vw + 5px);
-    height: max-content;
+    height: 100%;
+    line-height: calc(18vw + 25px);
     width: max-content;
+    vertical-align: middle;
+    display: inline-block;
     font-family: 'Montserrat', sans-serif;
     color: #242424;
     -webkit-touch-callout: none; /* iOS Safari */
@@ -197,7 +200,9 @@ input, button {
     right: 0;
     bottom: 0;
     margin: auto;
-    height: max-content;
+    /*height: max-content;*/
+    font-size: 16px;
+    height: 16px;
     width: min-content;
 }
 .classRoom {
@@ -614,8 +619,10 @@ input, button {
     bottom: 0;
     margin: auto;
     width: 90vw;
+    max-width: 500px;
+    display: block;
     height: max-content;
-    max-height: 90vw;
+    max-height: 300px;
     border-radius: 8px;
     background: #e4e4e4;
     box-shadow: 0 .5rem 2rem rgba(0,0,0,.35)!important;
