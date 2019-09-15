@@ -4,7 +4,22 @@ const fs = require("fs");
 module.exports = function(svg,dom){
     let lines = svg.querySelectorAll("line");
     let props = {}
-    props.class = svg.querySelectorAll("text")[1].innerHTML;
+    let texts = svg.querySelectorAll("text");
+    let class_text = null;
+    let table_date = null;
+    for (let i=0; i < texts.length; i++){
+        if (class_text == null ||
+        parseFloat(texts[i].getAttribute("font-size")) > parseFloat(class_text.getAttribute("font-size")))
+        {
+            class_text = texts[i];
+        }
+        
+        if (texts[i].innerHTML.indexOf("Órarend") != -1 && table_date == null){
+            table_date = texts[i];
+        }
+    }
+    props.header = table_date.innerHTML;
+    props.class = class_text.innerHTML;
     let timetable = []
     for (let i=0; i < 5; i++){
         let arr = [];
