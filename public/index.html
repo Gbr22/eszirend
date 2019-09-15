@@ -29,7 +29,7 @@
             <span id="logo_text" class="noselect">Órarend</span>
             <button id="help" onclick="toggleHelp()">
                 <i class="material-icons">
-                    help_outline
+                    info_outline
                 </i>
             </button>
         </div>
@@ -44,14 +44,21 @@
         </span>
         <div id="help_win" class="hidden">
             <div id="help_head">
-                <span id="help_title">Súgó</span>
+                <span id="help_title">_</span>
                 <button id="close_help" onclick="toggleHelp()">
                     <i class="material-icons">
                         close
                     </i>
                 </button>
             </div>
-            <span id="help_content" >
+            <span id="help_content">
+                <span id="tableinfo">
+                    <h3>Infó</h3>
+                    <p id="info_class_name">00.B</p>
+                    <p id="info_header">Órarend (hónap nap-tól)</p>
+                    
+                </span>
+                <h3>Súgó</h3>
                 <ul>
                     <li>
                         <i class="material-icons">
@@ -65,8 +72,16 @@
                         </i>
                         <span>Gépterem</span>
                     </li>
+                    <p><i>Egy órára koppintva több információt tekinthetsz meg róla</i></p>
+                    <p><i>Az oldal internet nélkül is működik</i></p>
+                    <p><i>Ha nem frissül az órarend pródáld törölni a gyorsítótárát (cache) a böngésződnek</i></p>
                 </ul>
-                <p id="credit">Az oldalt készítette: <a href="https://www.facebook.com/gabor.krisko.22" target="_blank">Kriskó Gábor</a></p>
+                <h3>Készítette</h3>
+                <span id="profile_wrap">
+                    <img src="https://github.com/Gbr22.png">
+                </span>
+                
+                <p id="credit"><a href="https://www.facebook.com/gabor.krisko.22" target="_blank">Kriskó Gábor</a></p>
             </span>
             
         </div>

@@ -243,6 +243,11 @@ async function openTable(id){
     document.getElementById("loader").classList.add("hidden");
     window.location.hash = "class/"+id;
     console.log(json);
+
+    
+    document.getElementById("info_class_name").innerHTML = json.class;
+    document.getElementById("info_header").innerHTML = json.header;
+    document.getElementById("tableinfo").classList.add("show");
     
     document.getElementById("content").innerHTML = ``;
 
@@ -474,6 +479,8 @@ async function openTable(id){
 }
 function loadMainPage(){
     document.getElementById("actionbar").classList.remove("show");
+    document.getElementById("tableinfo").classList.remove("show");
+    
     document.getElementById("content").innerHTML = "";
     for (let i=0; i < classes.length; i++){
         let elem = document.createElement("span");
