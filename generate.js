@@ -2,7 +2,7 @@ let url = "https://eszi.edupage.org/timetable/view.php?fullscreen=1";
 
 
 
-
+const empty = require('empty-folder');
 
 const fs = require("fs");
 const request = require('request');
@@ -27,8 +27,15 @@ function getSVG(classid){
         });
     })
 }
+
+
+
 module.exports = function(){
-    
+    if (fs.existsSync("tmp")){
+        empty("tmp",false,()=>{})
+    } else {
+        fs.mkdirSync("tmp");
+    }
     
 
     request(url, {}, async (err, res, body) => {
@@ -38,12 +45,19 @@ module.exports = function(){
         let classes = JSON.parse('['+body.split(`"classes":[`)[1].split("]")[0]+']');
         console.log(classes);
         for (let i=0; i < classes.length; i++){
-            let out = await getSVG(classes[i]);
-            
             classes[i] = {
                 id:classes[i],
-                display:out.class
+                display:null
             }
+        }
+        
+        
+        //const empty = require('empty-folder');
+
+        for (let i=0; i < classes.length; i++){
+            let out = await getSVG(classes[i].id);
+            
+            classes[i].display = out.class;
         }
         console.log("new",classes);
         fs.writeFileSync("public/classes.json",JSON.stringify(classes));

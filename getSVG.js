@@ -6,6 +6,8 @@ const request = require('request');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 
+const resourceLoader = new (require("./resourceLoader").loader);
+
 module.exports = function(classid){
     return new Promise(function(resolve,reject){
         let url = "https://eszi.edupage.org/timetable/view.php?fullscreen=1&class="+classid;
@@ -21,7 +23,7 @@ module.exports = function(classid){
                 referrer: url,
                 runScripts: "dangerously",
                 pretendToBeVisual: true,
-                resources: "usable",
+                resources: resourceLoader,
                 beforeParse(window) {
                     
                     window.getDummyWidth = function(){return 1};
