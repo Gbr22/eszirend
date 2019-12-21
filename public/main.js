@@ -253,11 +253,11 @@ async function openTable(id){
 
     let time = document.createElement("div");
     time.setAttribute("id","time");
-    for (let i=0; i < 14; i++){
+    for (let i=0; i < 13; i++){
         let time_e = document.createElement("div");
         time_e.classList.add("time_e");
         time_e.innerHTML = `
-            <a>${i}</a>
+            <a>${i+1}</a>
         `;
         time.appendChild(time_e);
     }
@@ -440,9 +440,9 @@ async function openTable(id){
                     document.getElementById("class_subject").innerHTML = class_.subject;
                     document.getElementById("class_classroom").innerHTML = formatClassRoom(class_.classroom);
                     document.getElementById("class_group").innerHTML = class_.group;
-                    let classStart = j;
-                    let classEnd = j;
-                    let hour = j;
+                    let classStart = j+1;
+                    let classEnd = j+1;
+                    let hour = classStart; //Hour display string
                     
                     if (class_.classLength > 1){
                         classEnd += class_.classLength-1;
