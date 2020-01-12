@@ -55,6 +55,7 @@ input, button {
     width: calc(18vw + 25px);
     height: calc(18vw + 25px);
     margin: 8px;
+    font-size: calc(4vw + 5px);
     background-color: #ffffff;
     border-radius: 8px;
     cursor: pointer;
@@ -66,6 +67,16 @@ input, button {
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
+}
+/* .classSelector[data-id="-40"] {
+    box-shadow: 0 0 0px 3px goldenrod,inset 0 0 60px 8px goldenrod !important;
+} */
+.classSelector[data-id="-40"]::before {
+    position: absolute;
+    top: 1.5vh;
+    left: 0;
+    right: 0;
+    content: '👑';
 }
 .noselect {
     -webkit-touch-callout: none; /* iOS Safari */
@@ -83,7 +94,6 @@ input, button {
     right: 0;
     bottom: 0;
     margin: auto;
-    font-size: calc(4vw + 5px);
     height: 100%;
     line-height: calc(18vw + 25px);
     width: max-content;

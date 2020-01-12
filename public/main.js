@@ -485,6 +485,7 @@ function loadMainPage(){
     for (let i=0; i < classes.length; i++){
         let elem = document.createElement("span");
         elem.classList.add("classSelector");
+        elem.setAttribute("data-id",classes[i].id);
         elem.innerHTML = "<a>"+classes[i].display+"</a>";
         let id = classes[i].id;
         elem.onclick = function(){
