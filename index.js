@@ -23,4 +23,5 @@ setInterval(() => {
 app.use(express.static(__dirname + '/public'));
 
  
-app.listen(8082);
+let port = process.env.PORT || 8082;
+app.listen(port);
