@@ -378,6 +378,7 @@ async function openTable(id){
                         "Német":"Ném",
                         "Környezetvédelem":"♻️",
                         "Informatika":"🖱️",
+                        "Mechatronika":"🛠️",
                         "Ügyvitel":"Ügyv",
                         "Közgazdaság":"Közg",
                         "Csoport":"Csop"
@@ -407,6 +408,7 @@ async function openTable(id){
                     let color = null;
                     let aliases = {
                         "Informatika":"inf",
+                        "Mechatronika":"mechatro",
                         "Környezetvédelem":"körny",
                         "Ügyvitel":"ügyv",
                         "Közgazdaság":"közg",
@@ -422,7 +424,8 @@ async function openTable(id){
                         "csop1":"#1a8cff",
                         "csop2":"#ff6666",
                         "közg":"#ffcccc",
-                        "ügyv":"#ccffcc"
+                        "ügyv":"#ccffcc",
+                        "mechatro":"#94b8b8",
                     }
                     for (p in aliases){
                         if (group.indexOf(p) != -1 || group.indexOf(p.toLowerCase()) != -1){
