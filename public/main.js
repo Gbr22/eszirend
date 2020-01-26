@@ -112,15 +112,25 @@ function getFirstLetter(word){
     return word;
 }
 function isBigRow(row){
-    if (row.length >= 3 ){
-        let smallList = ["Angol nyelv","Német nyelv","Magyar nyelv szövegértés"];
-        let contains = false;
-        for (let i=0; i < smallList.length; i++){
-            if ( row[0].subject == smallList[i] ){
-                contains = true;
+    if (row.length >= 3){
+        let smallList = ["angol","német","Angol nyelv","Német nyelv","Magyar nyelv szövegértés"];
+        let allis = true;
+        for (let i=0; i < row.length; i++){
+            let _class = row[i];
+
+            let contains = false;
+            for (let j=0; j < smallList.length; j++){
+                if ( _class.subject.indexOf(smallList[j]) != -1){
+                    contains = true;
+                }
+            }
+            if (!contains){
+                allis = false;
+                break;
             }
         }
-        return contains;
+        
+        return allis;
 
     }
     return false;
@@ -222,6 +232,7 @@ function closeClassView(){
     document.getElementById("classViewer").classList.remove("show");
     document.getElementById("classViewCover").classList.remove("show");
 }
+let currentTable = null;
 async function openTable(id){
 
 
@@ -242,7 +253,7 @@ async function openTable(id){
     loadingTable = false;
     document.getElementById("loader").classList.add("hidden");
     window.location.hash = "class/"+id;
-    console.log(json);
+    currentTable = json;
 
     
     document.getElementById("info_class_name").innerHTML = json.class;
