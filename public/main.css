@@ -212,8 +212,14 @@ input, button {
     margin: auto;
     /*height: max-content;*/
     font-size: 16px;
-    height: 16px;
+    height: 18px;
+    
     width: min-content;
+
+    overflow: hidden;
+    white-space: nowrap; 
+    max-width: 100%;
+    text-overflow: ellipsis;
 }
 .classRoom {
     position: absolute;
@@ -251,6 +257,11 @@ input, button {
     
     height: max-content;
     width: min-content;
+    max-width: 50%;
+
+    overflow: hidden;
+    white-space: nowrap; 
+    text-overflow: ellipsis;
 }
 .row {
     height: var(--row-height);
