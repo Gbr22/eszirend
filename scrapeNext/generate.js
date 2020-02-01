@@ -6,7 +6,15 @@ let getSvgs = require("./getSvgs");
 let gentable = require("../gentable");
 var hash = require('object-hash');
 
+const empty = require('empty-folder');
+
 async function run(){
+    if (fs.existsSync("tmp")){
+        empty("tmp",false,()=>{})
+    } else {
+        fs.mkdirSync("tmp");
+    }
+
     let svgs = await getSvgs();
     let tables = [];
     for (let i=0; i < svgs.length; i++){            
