@@ -7,16 +7,16 @@ let cached_urls = [
     '/main.js',
     '/icon.png',
     '/logo.png',
-    "/classes.json"
+    "/tables.json"
 ]
 
 function preCache(){
     return new Promise(function(resolve,reject){
-        fetch('/classes.json').then(async function(response) {
+        fetch('/tables.json').then(async function(response) {
             let json = await response.json();
             console.log("json",json);
             for (let i=0; i < json.length; i++){
-                let id = json[i].id.toString().replace("*","star");
+                let id = json[i].id.toString();
                 console.log(id);
                 cached_urls.push("/tables/"+id+".json");
             }
