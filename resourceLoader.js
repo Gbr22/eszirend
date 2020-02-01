@@ -21,13 +21,13 @@ class CustomResourceLoader extends jsdom.ResourceLoader {
 
 
       } else {
-        console.log(`Element '${options.element.localName}' is requesting the url ${url}`);
+        //console.log(`Element '${options.element.localName}' is requesting the url ${url}`);
 
 
         let filename = "tmp/"+hash(url);
 
         if (fs.existsSync(filename)){
-            console.log("Serving file from cache");
+            //console.log("Serving file from cache");
             return Promise.resolve(fs.readFileSync(filename));
         } else {
             let result = super.fetch(url, options);
