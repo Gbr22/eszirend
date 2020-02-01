@@ -1,4 +1,4 @@
-let generate = require("./generate");
+let generate = require("./scrapeNext/generate");
 
 const express = require('express')
 const app = express()

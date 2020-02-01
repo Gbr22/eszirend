@@ -1,3 +1,4 @@
 public/tables/*.json
 public/classes.json
+public/tables.json
 tmp/*

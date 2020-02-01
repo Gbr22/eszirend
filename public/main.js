@@ -500,16 +500,17 @@ function loadMainPage(){
         let elem = document.createElement("span");
         elem.classList.add("classSelector");
         elem.setAttribute("data-id",classes[i].id);
-        elem.innerHTML = "<a>"+classes[i].display+"</a>";
+        elem.innerHTML = "<a>"+classes[i].class+"</a>";
         let id = classes[i].id;
         elem.onclick = function(){
-            openTable(id,classes[i].display);
+            openTable(id,classes[i].class);
         }
         document.getElementById("content").appendChild(elem);
     }
 }
 (async ()=>{
-    classes = await fetchJSON("classes.json");
+    tables = await fetchJSON("tables.json");
+    classes = tables;
     loadMainPage();
 })()
 
