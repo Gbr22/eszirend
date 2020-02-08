@@ -119,17 +119,17 @@
             <div id="classViewCover" v-bind:class="{ show:classViewOpen }" v-on:click="classViewOpen = false">
     
             </div>
-            <div id="classViewer" v-bind:class="{ show:classViewOpen }">
-                <h1 id="class_subject"></h1>
-                <p id="class_hour"></p>
-                <p id="class_time"></p>
-                <div id="infoblock">
-                    <span>Csoport: <a id="class_group"></a></span>
-                    <span>Terem: <a id="class_classroom"></a></span>
-                    <span>Tanár: <a id="class_teacher"></a></span>
-                </div>
-                
-    
+            <div id="classViewer" v-bind:class="{ show:classViewOpen }" v-bind:style="{backgroundColor: getClassViewColor()}">
+                <span v-if="classViewOpen">
+                    <h1 id="class_subject">{{ classView.class.subject }}</h1>
+                    <p id="class_hour">{{ classView.hour }}</p>
+                    <p id="class_time">{{ classView.start }} - {{ classView.end }}</p>
+                    <div id="infoblock">
+                        <span>Csoport: <a id="class_group">{{ classView.class.group }}</a></span>
+                        <span>Terem: <a id="class_classroom" v-html="formatClassRoom(classView.class.classroom)"></a></span>
+                        <span>Tanár: <a id="class_teacher">{{ classView.class.teacher }}</a></span>
+                    </div>
+                </span>
             </div>
             <span id="offline" v-bind:class="{ show: !isOnline }">Offline</span>
         </div>

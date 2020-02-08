@@ -251,6 +251,48 @@ let vueData = {
     }
     
 }
+function formatClassRoom(string_){
+    let s = string_.split(" /max")[0]; 
+    let num = s.split(" ")[0];
+    s=num;
+    if (string_.indexOf("(IA)") != -1){
+        s+=`<i class="material-icons">cast</i>`;
+    }
+    if (string_.indexOf("gépterem") != -1){
+        s+=`<i class="material-icons">desktop_windows</i>`;
+    }
+
+    return s;
+}
+function getColor(group){
+    let color = null;
+    let aliases = {
+        "Informatika":"inf",
+        "Mechatronika":"mechatro",
+        "Környezetvédelem":"körny",
+        "Ügyvitel":"ügyv",
+        "Közgazdaság":"közg",
+        "Csoport 1":"csop1",
+        "Csoport 2":"csop2",
+
+        "Infó":"inf",
+        "Körny":"körny",
+    }
+    let colors = {
+        "inf":"#0099ff",
+        "körny":"#00ff99",
+        "csop1":"#1a8cff",
+        "csop2":"#ff6666",
+        "közg":"#ffcccc",
+        "ügyv":"#ccffcc",
+        "mechatro":"#94b8b8",
+    }
+    for (p in aliases){
+        if (group.indexOf(p) != -1 || group.indexOf(p.toLowerCase()) != -1){
+            return colors[aliases[p]];
+        }
+    }
+}
 var app = new Vue({
     el: '#app',
     data: vueData,
@@ -258,7 +300,16 @@ var app = new Vue({
         loop();
     },
     methods:{
+        getColor,
+        formatClassRoom,
         openThing,
+        getClassViewColor(){
+            let default_ = '#e4e4e4';
+            if (!this.classView){
+                return default_;
+            }
+            return getColor(this.classView.class.group) || default_;
+        },
         formatVersionText(v){
             return v.text.replace(v.info,"").replace("()","").trim();
         },
@@ -340,19 +391,7 @@ var app = new Vue({
                     <a class="dayname">${daynames[i]}</a>
                     
                 `;
-                function formatClassRoom(string_){
-                    let s = string_.split(" /max")[0]; 
-                    let num = s.split(" ")[0];
-                    s=num;
-                    if (string_.indexOf("(IA)") != -1){
-                        s+=`<i class="material-icons">cast</i>`;
-                    }
-                    if (string_.indexOf("gépterem") != -1){
-                        s+=`<i class="material-icons">desktop_windows</i>`;
-                    }
-        
-                    return s;
-                }
+                
                 for (let j =0; j < t.length; j++){
                     //t[j] : row in day
                     //type: Array
@@ -448,35 +487,7 @@ var app = new Vue({
                             
                             return out;
                         }
-                        function getColor(group){
-                            let color = null;
-                            let aliases = {
-                                "Informatika":"inf",
-                                "Mechatronika":"mechatro",
-                                "Környezetvédelem":"körny",
-                                "Ügyvitel":"ügyv",
-                                "Közgazdaság":"közg",
-                                "Csoport 1":"csop1",
-                                "Csoport 2":"csop2",
-        
-                                "Infó":"inf",
-                                "Körny":"körny",
-                            }
-                            let colors = {
-                                "inf":"#0099ff",
-                                "körny":"#00ff99",
-                                "csop1":"#1a8cff",
-                                "csop2":"#ff6666",
-                                "közg":"#ffcccc",
-                                "ügyv":"#ccffcc",
-                                "mechatro":"#94b8b8",
-                            }
-                            for (p in aliases){
-                                if (group.indexOf(p) != -1 || group.indexOf(p.toLowerCase()) != -1){
-                                    return colors[aliases[p]];
-                                }
-                            }
-                        }
+                        
                         if (getColor(class_.group)){
                             class_elem.style.backgroundColor = getColor(class_.group);
                         }
@@ -495,9 +506,9 @@ var app = new Vue({
         
                         class_elem.onclick = function(){
                             console.log(class_);
-                            document.getElementById("class_subject").innerHTML = class_.subject;
-                            document.getElementById("class_classroom").innerHTML = formatClassRoom(class_.classroom);
-                            document.getElementById("class_group").innerHTML = class_.group;
+                            
+                            
+                            
                             let classStart = j+1;
                             let classEnd = j+1;
                             let hour = classStart; //Hour display string
@@ -508,16 +519,16 @@ var app = new Vue({
                             }
         
                             hour+=". óra";
-                            document.getElementById("class_teacher").innerHTML = class_.teacher;
-                            document.getElementById("class_hour").innerHTML = hour;
-                            document.getElementById("class_time").innerHTML = getHourInfo(classStart).start + " - " + getHourInfo(classEnd).end;
-                            if (getColor(class_.group)){
-                                document.getElementById("classViewer").style.backgroundColor = getColor(class_.group);
-                            } else {
-                                document.getElementById("classViewer").style.backgroundColor = "#e4e4e4";
-                            }
-                            vueData.classView = class_;
+                            
+                            vueData.classView = {
+                                class:class_,
+                                hour,
+                                start:getHourInfo(classStart).start,
+                                end:getHourInfo(classEnd).end,
+                            };
                             vueData.classViewOpen = true;
+ 
+                            
                             openThing();
                             
                         }
