@@ -85,11 +85,16 @@ let loop = function(){
 
 loop();
 
-
+function openThing(){
+    history.pushState({},"");
+}
 window.onpopstate = function(event) {
     console.log("pop",window.location);
 
-    if (vueData.classViewOpen){
+    if (vueData.helpOpen){
+        vueData.helpOpen = false;
+    }
+    else if (vueData.classViewOpen){
         vueData.classViewOpen = false;
     }
     else if (vueData.tableMode){
@@ -243,6 +248,7 @@ let vueData = {
     tableMode:false,
     currentTable:null,
     versionSelectOpen:false,
+    helpOpen:false,
     classView:null,
     classViewOpen:false,
     versions:[],
@@ -252,15 +258,11 @@ let vueData = {
     }
     
 }
-
-function toggleHelp(){
-    document.getElementById("help_win").classList.toggle("hidden");
-}
-
 var app = new Vue({
     el: '#app',
     data: vueData,
     methods:{
+        openThing,
         formatVersionText(v){
             return v.text.replace(v.info,"").replace("()","").trim();
         },
@@ -300,7 +302,7 @@ var app = new Vue({
             let display = json.class;
             loadingTable = false;
             document.getElementById("loader").classList.add("hidden");
-            history.pushState({},"");
+            openThing();
             currentTable = json;
             this.currentTable = json;
         
@@ -520,7 +522,7 @@ var app = new Vue({
                             }
                             vueData.classView = class_;
                             vueData.classViewOpen = true;
-                            history.pushState({},"");
+                            openThing();
                             
                         }
         

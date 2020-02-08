@@ -28,7 +28,7 @@
             <div id="head">
                 <img id="logo" src="logo.png" height="50px">
                 <span id="logo_text" class="noselect">Órarend</span>
-                <button id="help" onclick="toggleHelp()">
+                <button id="help" v-on:click="openThing(); helpOpen = true;">
                     <i class="material-icons">
                         info_outline
                     </i>
@@ -64,10 +64,10 @@
                 <i id="dot3"></i>
                 
             </span>
-            <div id="help_win" class="hidden">
+            <div id="help_win" v-cloak v-bind:class="{ hidden: !helpOpen }">
                 <div id="help_head">
                     <span id="help_title">_</span>
-                    <button id="close_help" onclick="toggleHelp()">
+                    <button id="close_help" v-on:click="helpOpen = false">
                         <i class="material-icons">
                             close
                         </i>
