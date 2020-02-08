@@ -1,12 +1,22 @@
-let url = "https://eszi.edupage.org/timetable/view.php?fullscreen=1";
+let url = "https://eszi.edupage.org/timetable/view.php";
 
 const cheerio = require('cheerio');
 const fs = require("fs");
+const request = require("request");
 
-function getInfo(){
+function get(){
+    return new Promise(function(resolve,reject){
+        request.get(url, function(err,res,body){
+            resolve(body);
+        })
+    })
+}
+
+async function getInfo(){
     let info = {};
-
-    const $ = cheerio.load(fs.readFileSync("scrapeV2/test.html"));
+    let html = (await get()).toString();
+    
+    const $ = cheerio.load(html);
     let scripts = $(`script:not([src])`);
 
     

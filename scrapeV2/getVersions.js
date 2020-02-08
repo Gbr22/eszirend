@@ -1,7 +1,7 @@
 let getInfo = require("./scrape");
 
 module.exports = async function(){
-    let info = await getInfo().viewer;
+    let info = (await getInfo()).viewer;
     
     let options = info.ttviewer_options;
     let menu = options.version_menu;
