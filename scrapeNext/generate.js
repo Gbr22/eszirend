@@ -8,19 +8,19 @@ var hash = require('object-hash');
 
 const empty = require('empty-folder');
 
-async function run(){
+async function run(timeid){
     if (fs.existsSync("tmp")){
         empty("tmp",false,()=>{})
     } else {
         fs.mkdirSync("tmp");
     }
 
-    let svgs = await getSvgs();
+    let svgs = await getSvgs(timeid);
     let tables = [];
     for (let i=0; i < svgs.length; i++){            
         let table = gentable(svgs[i]);
         let id = hash({
-            header:table.header,
+            timeid,
             class:table.class
         }).toString();
 
@@ -36,4 +36,6 @@ async function run(){
     process.send(tables);
     process.exit(0);
 }
-run();
+process.on('message', (m) => {
+    run(m);
+});

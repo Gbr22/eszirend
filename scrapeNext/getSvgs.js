@@ -9,7 +9,7 @@ let VIEW = "https://eszi.edupage.org/timetable/view.php";
 
 module.exports = function(timeid){
     return new Promise(function(resolve,reject){
-        let url = VIEW;
+        let url = VIEW+"?num="+timeid;
         request(url, {}, (err, res, body) => {
             if (err) { return console.log(err); }
             

@@ -2,7 +2,6 @@ let url = "https://eszi.edupage.org/timetable/view.php?fullscreen=1";
 
 const cheerio = require('cheerio');
 const fs = require("fs");
-let acorn = require("acorn");
 
 function getInfo(){
     let info = {};
@@ -17,7 +16,7 @@ function getInfo(){
         let content = contentElem.data;
         
 
-        if (content.indexOf("ASC.req_props") != -1){
+        /* if (content.indexOf("ASC.req_props") != -1){
             //console.log(content);
 
             const vm = require('vm');
@@ -34,7 +33,7 @@ function getInfo(){
             vm.runInContext(content, context);
 
             //console.log(context.ASC);
-        } else if (content.indexOf("ttviewer_options") != -1){
+        } else  */if (content.indexOf("ttviewer_options") != -1){
             //let program = acorn.parse(content).body;
             let tt = "ttviewer_options="
             content = tt+content.split(tt)[1];
@@ -45,7 +44,7 @@ function getInfo(){
                 content = content.substring(0, n) + "";
             } */
 
-            fs.writeFileSync("d.js",content);
+            //fs.writeFileSync("d.js",content);
 
             const vm = require('vm');
             let j = {                        
@@ -94,7 +93,7 @@ function getInfo(){
             }
             
             //console.log(context);
-            fs.writeFileSync("d.json",JSON.stringify(context));
+            info.viewer = context;
             //console.log(program);
         }
     }
@@ -102,5 +101,4 @@ function getInfo(){
     return info;
 }
 
-
-getInfo();
+module.exports = getInfo;

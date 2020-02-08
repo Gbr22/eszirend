@@ -5,6 +5,7 @@ const app = express()
 
 const fs = require("fs");
 
+const getVersions = require("./scrapeV2/getVersions");
 
 
 try {
@@ -21,20 +22,29 @@ function addMinutes(date, minutes) {
 }
 
 async function getAll(){
-    let current = await generate();
-    return current;
+    let versions = await getVersions();
+
+    for (let i=0; i < versions.length; i++){
+        let v = versions[i];
+        console.log("generating",v.text,v.id)
+        v.tables = await generate(v.id);
+    }
+    return versions;
 }
 
-function inter(){
+async function inter(){
+
     getAll().then(function(tables){
         console.log("all tables",tables);
         fs.writeFileSync("./public/tables.json",JSON.stringify(tables));
+
+        console.log("next update", addMinutes(new Date(), minutes) );
+        setTimeout(inter, 1000*60*minutes);
     });
 
-    console.log("next update", addMinutes(new Date(), minutes) );
+    
 }
 inter();
-setInterval(inter, 1000*60*minutes);
 
 app.use(express.static(__dirname + '/public'));
 

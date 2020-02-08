@@ -1,9 +1,10 @@
-async function run(){
+async function run(id){
     return new Promise(function(resolve,reject){
         
         const { spawn, fork } = require('child_process');
         const child = fork('./scrapeNext/generate.js');
         
+        child.send(id);
 
         child.on('exit', function (code, signal) {
             child.kill();

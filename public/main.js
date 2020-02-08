@@ -491,26 +491,76 @@ async function openTable(id){
     }
     
 }
+let versions = [];
+let selectedVersion = null;
+function formatVersionText(v){
+    return v.text.replace(v.info,"").replace("()","").trim();
+}
 function loadMainPage(){
+    console.log("loading mainpage");
     document.getElementById("actionbar").classList.remove("show");
     document.getElementById("tableinfo").classList.remove("show");
     
-    document.getElementById("content").innerHTML = "";
-    for (let i=0; i < classes.length; i++){
+    
+    let container = document.createElement("div");
+    container.classList.add("version-select");
+
+    let select = document.createElement("select");
+    container.appendChild(select);
+
+    
+
+    let versionMap = {};
+    for (let i=0; i < versions.length; i++){
+        let v = versions[i];
+        versionMap[v.id.toString()] = v;
+        let option = document.createElement("option");
+        option.value = v.id;
+
+        if (v.current){
+            option.classList.add("current");
+        }
+
+        if (v.id == selectedVersion.id){
+            option.selected = "selected";
+        }
+
+        option.innerHTML = formatVersionText(v);
+
+        select.appendChild(option);
+    }
+
+    select.onchange = function(event){
+        selectedVersion = versionMap[this.value];
+        loadMainPage();
+    }
+
+    document.getElementById("content").innerHTML = '';
+    document.getElementById("content").appendChild(container);
+
+    let tables = selectedVersion.tables;
+
+    for (let i=0; i < tables.length; i++){
+        let table = tables[i];
         let elem = document.createElement("span");
         elem.classList.add("classSelector");
-        elem.setAttribute("data-id",classes[i].id);
-        elem.innerHTML = "<a>"+classes[i].class+"</a>";
-        let id = classes[i].id;
+        elem.setAttribute("data-id",table.id);
+        elem.innerHTML = "<a>"+table.class+"</a>";
+        let id = table.id;
         elem.onclick = function(){
-            openTable(id,classes[i].class);
+            openTable(id,table.class);
         }
         document.getElementById("content").appendChild(elem);
     }
 }
 (async ()=>{
-    tables = await fetchJSON("tables.json");
-    classes = tables;
+    versions = await fetchJSON("tables.json");
+    
+    for (let v of versions){
+        if (v.current){
+            selectedVersion = v;
+        }
+    }
     loadMainPage();
 })()
 

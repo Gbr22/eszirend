@@ -766,3 +766,24 @@ input, button {
 #class_classroom {
     display: inline-block;
 }
+
+.version-select {
+
+}
+
+.version-select select {
+    font-family: Helvetica, sans-serif;
+    font-size: 13px;
+    -webkit-appearance: none;
+    appearance: none;
+    color: #242424;
+    border: 1px solid var(--baseFg);
+    line-height: 1;
+    outline: 0;
+    padding: 10px 20px;
+
+
+    border-radius: 27px;
+    background-color: white;
+    box-shadow: 0 .3rem 3rem rgba(0,0,0,.05)!important;
+}
