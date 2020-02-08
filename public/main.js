@@ -550,6 +550,9 @@ function loadMainPage(){
         let elem = document.createElement("span");
         elem.classList.add("classSelector");
         elem.setAttribute("data-id",table.id);
+        if (isKing(table.class)){
+            elem.classList.add("king");
+        }
         elem.innerHTML = "<a>"+table.class+"</a>";
         let id = table.id;
         elem.onclick = function(){
@@ -557,6 +560,10 @@ function loadMainPage(){
         }
         document.getElementById("content").appendChild(elem);
     }
+}
+function isKing(classname){
+    let yr = (9+Math.floor((((new Date()) - new Date("2018. 09. 01")) / 1000 / 60 / 60 / 24 / 365)));
+    return classname.startsWith(yr) && classname.endsWith("B");
 }
 (async ()=>{
     versions = await fetchJSON("tables.json");

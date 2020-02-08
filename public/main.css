@@ -68,10 +68,8 @@ input, button {
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 }
-/* .classSelector[data-id="-40"] {
-    box-shadow: 0 0 0px 3px goldenrod,inset 0 0 60px 8px goldenrod !important;
-} */
-.classSelector[data-id="-40"]::before {
+
+.classSelector.king::before {
     position: absolute;
     top: 1.5vh;
     left: 0;
