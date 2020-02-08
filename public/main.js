@@ -233,7 +233,6 @@ let currentTable = null;
 
 function loadMainPage(){
     console.log("loading mainpage");
-    document.getElementById("tableinfo").classList.remove("show");
     vueData.tableMode = false;
 }
 
@@ -242,6 +241,7 @@ function loadMainPage(){
 let vueData = {
 
     tableMode:false,
+    currentTable:null,
     versionSelectOpen:false,
     classView:null,
     classViewOpen:false,
@@ -273,6 +273,8 @@ var app = new Vue({
             this.versionSelectOpen = false
         },
         async openTable(tableInfo){
+            
+
             let version = this.selectVersion;
             let id = tableInfo.id;
         
@@ -300,11 +302,9 @@ var app = new Vue({
             document.getElementById("loader").classList.add("hidden");
             history.pushState({},"");
             currentTable = json;
+            this.currentTable = json;
         
             
-            document.getElementById("info_class_name").innerHTML = json.class;
-            document.getElementById("info_header").innerHTML = json.header;
-            document.getElementById("tableinfo").classList.add("show");
             
             document.getElementById("content").innerHTML = ``;
         

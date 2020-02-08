@@ -74,10 +74,10 @@
                     </button>
                 </div>
                 <span id="help_content">
-                    <span id="tableinfo" v-show="tableMode">
+                    <span id="tableinfo" v-if="tableMode">
                         <h3>Infó</h3>
-                        <p id="info_class_name">00.B</p>
-                        <p id="info_header">Órarend (hónap nap-tól)</p>
+                        <p id="info_class_name">{{ currentTable.class }}</p>
+                        <p id="info_header">{{ currentTable.header }}</p>
                         
                     </span>
                     <h3>Súgó</h3>

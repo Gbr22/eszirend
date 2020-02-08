@@ -603,12 +603,6 @@ input, button {
     position: relative;
     border: 3px solid #d9d9d9;
 }
-#tableinfo {
-    display: none;
-}
-#tableinfo.show {
-    display: block;
-}
 #info_class_name {
     font-size: 28px;
     text-align: center;
