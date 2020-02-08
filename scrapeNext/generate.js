@@ -31,8 +31,9 @@ async function run(){
         })
         fs.writeFileSync("public/tables/"+id+".json",JSON.stringify(table) );
     }
-    fs.writeFileSync("./public/tables.json",JSON.stringify(tables));
-    console.log(JSON.stringify(tables));
+    //fs.writeFileSync("./public/tables.json",JSON.stringify(tables));
+    //console.log(JSON.stringify(tables));
+    process.send(tables);
     process.exit(0);
 }
 run();

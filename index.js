@@ -20,10 +20,21 @@ function addMinutes(date, minutes) {
     return new Date(date.getTime() + minutes*60000);
 }
 
-setInterval(() => {
-    generate();
+async function getAll(){
+    let current = await generate();
+    return current;
+}
+
+function inter(){
+    getAll().then(function(tables){
+        console.log("all tables",tables);
+        fs.writeFileSync("./public/tables.json",JSON.stringify(tables));
+    });
+
     console.log("next update", addMinutes(new Date(), minutes) );
-}, 1000*60*minutes);
+}
+inter();
+setInterval(inter, 1000*60*minutes);
 
 app.use(express.static(__dirname + '/public'));
 

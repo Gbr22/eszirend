@@ -1,25 +1,20 @@
 async function run(){
     return new Promise(function(resolve,reject){
-        const { spawn } = require('child_process');
-        const child = spawn('node', ['./scrapeNext/generate.js']);
+        
+        const { spawn, fork } = require('child_process');
+        const child = fork('./scrapeNext/generate.js');
+        
 
-        let out = "";
-        child.stdout.on('data', (data) => {
-            out+=data;
-            console.log(`child stdout:\n${data}`);
-        });
-            
-        child.stderr.on('data', (data) => {
-            console.error(`child stderr:\n${data}`);
-        });
         child.on('exit', function (code, signal) {
             child.kill();
             console.log("process exit "+code);
-            resolve(out);
+        });
+        child.on('message', (m) => {
+            console.log("got result from process");
+            resolve(m);
         });
     });
     
 }
 
 module.exports = run;
-run();
