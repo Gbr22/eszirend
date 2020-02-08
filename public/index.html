@@ -131,7 +131,7 @@
                 
     
             </div>
-            <span id="offline">Offline</span>
+            <span id="offline" v-bind:class="{ show: !isOnline }">Offline</span>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
         <script src="main.js"></script>

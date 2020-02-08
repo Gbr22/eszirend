@@ -61,7 +61,6 @@ function scrollToPosition(){
         behavior: 'smooth'
     });*/
 }
-var wasOnline = navigator.onLine;
 
 let loop = function(){
     if (document.getElementById("dayswrap") != undefined){
@@ -70,20 +69,13 @@ let loop = function(){
         document.getElementById("daynames_wrap").style.transform = "translateX("+pos+"px)";
     }
 
-    if (wasOnline != navigator.onLine){
-        if (navigator.onLine){
-            document.getElementById("offline").setAttribute("class","");
-        } else {
-            document.getElementById("offline").setAttribute("class","show");
-        }
-
-        wasOnline = navigator.onLine;
+    if (vueData.isOnline != navigator.onLine){
+        vueData.isOnline = navigator.onLine;
     }
 
     requestAnimationFrame(loop);
 }
 
-loop();
 
 function openThing(){
     history.pushState({},"");
@@ -245,6 +237,7 @@ function loadMainPage(){
 
 let vueData = {
 
+    isOnline:navigator.onLine,
     tableMode:false,
     currentTable:null,
     versionSelectOpen:false,
@@ -261,6 +254,9 @@ let vueData = {
 var app = new Vue({
     el: '#app',
     data: vueData,
+    mounted(){
+        loop();
+    },
     methods:{
         openThing,
         formatVersionText(v){
