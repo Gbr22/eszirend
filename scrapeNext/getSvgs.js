@@ -59,7 +59,14 @@ module.exports = function(timeid){
                     if (current.getAttribute("found") == "true"){
                         
                         if (next.classList.contains("disabled")){
-                            await dom.window.close();
+                            setInterval(function(){
+                                let window = dom.window;
+                                window.close();
+
+                                if (global.gc) {
+                                    global.gc();
+                                }
+                            }, 0);
                             clearInterval(inter);
                             resolve(svgs);
                         } else {

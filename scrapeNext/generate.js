@@ -32,7 +32,7 @@ async function run(){
         fs.writeFileSync("public/tables/"+id+".json",JSON.stringify(table) );
     }
     fs.writeFileSync("./public/tables.json",JSON.stringify(tables));
-    console.log(tables);
+    console.log(JSON.stringify(tables));
+    process.exit(0);
 }
-module.exports = run;
 run();

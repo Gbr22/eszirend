@@ -1,4 +1,4 @@
-let generate = require("./scrapeNext/generate");
+let generate = require("./scrapeNext/generateWrap");
 
 const express = require('express')
 const app = express()
@@ -14,10 +14,15 @@ try {
 }
 
 
-let minutes = 25;
+let minutes = 10;
+
+function addMinutes(date, minutes) {
+    return new Date(date.getTime() + minutes*60000);
+}
 
 setInterval(() => {
     generate();
+    console.log("next update", addMinutes(new Date(), minutes) );
 }, 1000*60*minutes);
 
 app.use(express.static(__dirname + '/public'));

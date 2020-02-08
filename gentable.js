@@ -1,7 +1,7 @@
 
 const fs = require("fs");
 
-module.exports = function(svg,dom){
+module.exports = function(svg){
     let lines = svg.querySelectorAll("line");
     let props = {}
     let texts = svg.querySelectorAll("text");
