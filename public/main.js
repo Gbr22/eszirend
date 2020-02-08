@@ -233,8 +233,8 @@ function closeClassView(){
     document.getElementById("classViewCover").classList.remove("show");
 }
 let currentTable = null;
-async function openTable(id){
-
+async function openTable(tableInfo,version){
+    let id = tableInfo.id;
 
     if (loadingTable){
         return;
@@ -245,7 +245,12 @@ async function openTable(id){
             className = classes[i].display;
         }
     }
-    let url = "tables/"+id.toString().replace("*","star")+".json";
+    let url = "/tables/"+id.toString().replace("*","star")+".json";
+
+    if (version.current){
+        url = "/api/current/"+tableInfo.class;
+    }
+
     loadingTable = true;
     document.getElementById("loader").classList.remove("hidden");
     let json = await fetchJSON(url);
@@ -548,7 +553,7 @@ function loadMainPage(){
         elem.innerHTML = "<a>"+table.class+"</a>";
         let id = table.id;
         elem.onclick = function(){
-            openTable(id,table.class);
+            openTable(table,selectedVersion);
         }
         document.getElementById("content").appendChild(elem);
     }

@@ -15,10 +15,12 @@ function preCache(){
         fetch('/tables.json').then(async function(response) {
             let json = await response.json();
             console.log("json",json);
-            for (let i=0; i < json.length; i++){
-                let id = json[i].id.toString();
-                console.log(id);
-                cached_urls.push("/tables/"+id+".json");
+            for (let v of json){
+                if (v.current){
+                    for (let t of v.tables){
+                        cached_urls.push("/api/current/"+t.class);
+                    }
+                }
             }
             let cache = await caches.open(cache_name);
             let finished = 0;

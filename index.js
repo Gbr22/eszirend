@@ -46,6 +46,29 @@ async function inter(){
 }
 inter();
 
+function getCurrent(c){
+    let versions = JSON.parse(fs.readFileSync("./public/tables.json"));
+    for (let v of versions){
+        if (v.current){
+            for (let t of v.tables){
+                if (t.class == c){
+                    return t;
+                }
+            }
+            break;
+        }
+    }
+}
+
+app.all("/api/current/:class", (req,res)=>{
+    let c = getCurrent(req.params.class);
+    if (c == undefined){
+        res.sendStatus(404);
+        return;
+    }
+    res.sendFile(`${__dirname}/public/tables/${c.id}.json`);
+})
+
 app.use(express.static(__dirname + '/public'));
 
  
