@@ -24,92 +24,116 @@
 
     </head>
     <body>
-        <div id="head">
-            <img id="logo" src="logo.png" height="50px">
-            <span id="logo_text" class="noselect">Órarend</span>
-            <button id="help" onclick="toggleHelp()">
-                <i class="material-icons">
-                    info_outline
-                </i>
-            </button>
-        </div>
-        <div id="content">
-            
-        </div>
-        <span id="loader" class="hidden">
-            <i id="dot1"></i>
-            <i id="dot2"></i>
-            <i id="dot3"></i>
-            
-        </span>
-        <div id="help_win" class="hidden">
-            <div id="help_head">
-                <span id="help_title">_</span>
-                <button id="close_help" onclick="toggleHelp()">
+        <div id="app">
+            <div id="head">
+                <img id="logo" src="logo.png" height="50px">
+                <span id="logo_text" class="noselect">Órarend</span>
+                <button id="help" onclick="toggleHelp()">
                     <i class="material-icons">
-                        close
+                        info_outline
                     </i>
                 </button>
             </div>
-            <span id="help_content">
-                <span id="tableinfo">
-                    <h3>Infó</h3>
-                    <p id="info_class_name">00.B</p>
-                    <p id="info_header">Órarend (hónap nap-tól)</p>
+            <div id="pages" v-cloak>
+                <div id="homepage" class="page" v-if="!tableMode">
+                    <div class="section">
+                        <div class="version-select" v-bind:class="{ open: versionSelectOpen }">
+                            <span class="selected"  v-on:click="versionSelectOpen = !versionSelectOpen">
+                                {{ formatVersionText(selectedVersion) }}
+                            </span>
+                            <span class="options">
+                                
+                                <div class="option" v-for="v in versions" v-bind:class="{ selected: selectedVersion == v }" v-on:click="selectVersion(v)">
+                                    {{ formatVersionText(v) }}
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                    <span v-for="t in selectedVersion.tables" class="classSelector" v-bind:class="{ king:isKing(t.class) }">
+                        <a v-on:click="openTable(t)">{{ t.class }}</a>
+                    </span>
+                </div>
+                <div id="content" class="page" v-show="tableMode">
+                
+                </div>
+            </div>
+            
+            <span id="loader" class="hidden">
+                <i id="dot1"></i>
+                <i id="dot2"></i>
+                <i id="dot3"></i>
+                
+            </span>
+            <div id="help_win" class="hidden">
+                <div id="help_head">
+                    <span id="help_title">_</span>
+                    <button id="close_help" onclick="toggleHelp()">
+                        <i class="material-icons">
+                            close
+                        </i>
+                    </button>
+                </div>
+                <span id="help_content">
+                    <span id="tableinfo" v-show="tableMode">
+                        <h3>Infó</h3>
+                        <p id="info_class_name">00.B</p>
+                        <p id="info_header">Órarend (hónap nap-tól)</p>
+                        
+                    </span>
+                    <h3>Súgó</h3>
+                    <ul>
+                        <li>
+                            <i class="material-icons">
+                                cast
+                            </i>
+                            <span>Interaktív terem</span>
+                        </li>
+                        <li>
+                            <i class="material-icons">
+                                desktop_windows
+                            </i>
+                            <span>Gépterem</span>
+                        </li>
+                        <p><i>Egy órára koppintva több információt tekinthetsz meg róla</i></p>
+                        <p><i>Az oldal internet nélkül is működik</i></p>
+                        <p><i>Ha nem frissül az órarend pródáld törölni a gyorsítótárát (cache) a böngésződnek</i></p>
+                    </ul>
+                    <h3>Készítette</h3>
+                    <span id="profile_wrap">
+                        <img src="https://github.com/Gbr22.png">
+                    </span>
                     
-                </span>
-                <h3>Súgó</h3>
-                <ul>
-                    <li>
-                        <i class="material-icons">
-                            cast
-                        </i>
-                        <span>Interaktív terem</span>
-                    </li>
-                    <li>
-                        <i class="material-icons">
-                            desktop_windows
-                        </i>
-                        <span>Gépterem</span>
-                    </li>
-                    <p><i>Egy órára koppintva több információt tekinthetsz meg róla</i></p>
-                    <p><i>Az oldal internet nélkül is működik</i></p>
-                    <p><i>Ha nem frissül az órarend pródáld törölni a gyorsítótárát (cache) a böngésződnek</i></p>
-                </ul>
-                <h3>Készítette</h3>
-                <span id="profile_wrap">
-                    <img src="https://github.com/Gbr22.png">
+                    <p id="credit"><a href="https://www.facebook.com/gabor.krisko.22" target="_blank">Kriskó Gábor</a></p>
                 </span>
                 
-                <p id="credit"><a href="https://www.facebook.com/gabor.krisko.22" target="_blank">Kriskó Gábor</a></p>
-            </span>
-            
-        </div>
-        <div id="actionbar">
-            <div id="daynames_wrap">
-                <span><a>Hétfő</a></span>
-                <span><a>Kedd</a></span>
-                <span><a>Szerda</a></span>
-                <span><a>Csütörtök</a></span>
-                <span><a>Péntek</a></span>
             </div>
-        </div>
-        <div id="classViewCover">
-
-        </div>
-        <div id="classViewer">
-            <h1 id="class_subject"></h1>
-            <p id="class_hour"></p>
-            <p id="class_time"></p>
-            <div id="infoblock">
-                <span>Csoport: <a id="class_group"></a></span>
-                <span>Terem: <a id="class_classroom"></a></span>
-                <span>Tanár: <a id="class_teacher"></a></span>
+            <div id="actionbar" v-bind:class="{ show:tableMode }">
+                <div id="daynames_wrap">
+                    <span><a>Hétfő</a></span>
+                    <span><a>Kedd</a></span>
+                    <span><a>Szerda</a></span>
+                    <span><a>Csütörtök</a></span>
+                    <span><a>Péntek</a></span>
+                </div>
             </div>
-            
-
+            <div id="classViewCover" v-bind:class="{ show:classViewOpen }" v-on:click="classViewOpen = false">
+    
+            </div>
+            <div id="classViewer" v-bind:class="{ show:classViewOpen }">
+                <h1 id="class_subject"></h1>
+                <p id="class_hour"></p>
+                <p id="class_time"></p>
+                <div id="infoblock">
+                    <span>Csoport: <a id="class_group"></a></span>
+                    <span>Terem: <a id="class_classroom"></a></span>
+                    <span>Tanár: <a id="class_teacher"></a></span>
+                </div>
+                
+    
+            </div>
+            <span id="offline">Offline</span>
         </div>
-        <span id="offline">Offline</span>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
         <script src="main.js"></script>
         
     </body>
