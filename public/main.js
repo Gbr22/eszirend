@@ -411,10 +411,9 @@ var app = new Vue({
             }
 
 
-            let version = this.selectVersion;
+            let version = this.selectedVersion;
             let id = tableInfo.id;
         
-            
         
             let url = "/tables/"+id.toString().replace("*","star")+".json";
         
