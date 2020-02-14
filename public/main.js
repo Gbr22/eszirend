@@ -406,19 +406,16 @@ var app = new Vue({
         },
         async openTable(tableInfo){
             
+            if (loadingTable){
+                return;
+            }
+
 
             let version = this.selectVersion;
             let id = tableInfo.id;
         
-            if (loadingTable){
-                return;
-            }
+            
         
-            for (let i=0; i < classes.length; i++){
-                if (classes[i].id == id){
-                    className = classes[i].display;
-                }
-            }
             let url = "/tables/"+id.toString().replace("*","star")+".json";
         
             if (version.current){
@@ -428,175 +425,16 @@ var app = new Vue({
             loadingTable = true;
             document.getElementById("loader").classList.remove("hidden");
             let json = await fetchJSON(url);
+            this.currentTable = json;
+
             this.tableMode = true;
-            let display = json.class;
             loadingTable = false;
+
             document.getElementById("loader").classList.add("hidden");
             openThing();
-            currentTable = json;
-            this.currentTable = json;
+            
         
             
-            
-            document.getElementById("content").innerHTML = ``;
-        
-            let time = document.createElement("div");
-            time.setAttribute("id","time");
-            for (let i=0; i < 13; i++){
-                let time_e = document.createElement("div");
-                time_e.classList.add("time_e");
-                time_e.innerHTML = `
-                    <a>${i+1}</a>
-                `;
-                time.appendChild(time_e);
-            }
-            document.getElementById("content").appendChild(time);
-        
-            let window_ = document.createElement("div");
-            window_.setAttribute("id","window");
-            
-            let dayswrap = document.createElement("div");
-            dayswrap.setAttribute("id","dayswrap");
-            
-            window_.appendChild(dayswrap);
-            document.getElementById("content").appendChild(window_);
-            
-            let cont = dayswrap; //container
-            
-            
-            for (let i=0; i < json.timetable.length; i++){
-                let t = json.timetable[i]; // t(his) day
-                let elem = document.createElement("div");
-                elem.classList.add("day");
-                elem.setAttribute("id","day"+i);
-                elem.innerHTML = `
-                    
-                    <a class="dayname">${daynames[i]}</a>
-                    
-                `;
-                
-                for (let j =0; j < t.length; j++){
-                    //t[j] : row in day
-                    //type: Array
-                    
-                    let row = document.createElement("div");
-                    row.classList.add("row");
-                    elem.appendChild(row);
-                    let toosmall = false;
-                    
-                    
-                    
-                    if (isBigRow(t[j])){
-                        
-                        toosmall = true;
-        
-                        
-                        let rowheight = getBiggestClassHeight(t[j]);
-                        
-                        
-        
-                        row.classList.add("toosmall");
-                        let row_inner = document.createElement("span");
-                        row_inner.classList.add("row_inner");
-                        row_inner.style.setProperty("--height",rowheight);
-                        row.appendChild(row_inner);
-        
-                        let row_inner_content = document.createElement("span");
-                        row_inner_content.classList.add("row_inner_content");
-                        row_inner.appendChild(row_inner_content);
-        
-                        row = row_inner_content;
-                    }
-                    
-                    for (let k=0; k < t[j].length; k++){
-                        let class_ = t[j][k];
-                        let class_elem = document.createElement("span");
-                        if (toosmall){
-                            class_elem.classList.add("toosmall");
-                        }
-                        function shorten(name){
-                            if (class_.width <= 30){
-                                name = name.split(" ");
-                                for (let l=0; l < name.length; l++){
-                                    name[l] = getFirstLetter(name[l]);
-                                }
-                                return name.join(" ");
-                            }
-                            let nameArr = name.split(" ");
-                            let index = nameArr.length-1;
-                            while(nameArr.join(" ").length > 15){
-                                if (index == -1){
-                                    break;
-                                }
-                                
-                                nameArr[index] = getFirstLetter(nameArr[index]);
-                                index--;
-                                
-                            }
-                            name = nameArr.join(" ");
-                            return name;
-                        }
-                        
-                        
-                        
-                        
-                        if (getColor(class_.group)){
-                            class_elem.style.backgroundColor = getColor(class_.group);
-                        }
-                        
-                        class_elem.innerHTML = `
-                        <a class="className">${class_.subject}</a>
-                        <a class="classRoom">${formatClassRoom(class_.classroom)}</a>
-                        <a class="teacher">${shorten(class_.teacher)}</a>
-                        <a class="group">${formatGroup(class_.group)}</a>
-                        `;
-                        class_elem.classList.add("class");
-                        
-                        class_elem.style.width = `calc(${class_.width}% - var(--padding))`;
-                        class_elem.style.setProperty("--height",class_.classLength);
-                        class_elem.style.left = class_.x+"%";
-        
-                        class_elem.onclick = function(){
-                            console.log(class_);
-                            
-                            
-                            
-                            let classStart = j+1;
-                            let classEnd = j+1;
-                            let hour = classStart; //Hour display string
-                            
-                            if (class_.classLength > 1){
-                                classEnd += class_.classLength-1;
-                                hour += "-"+classEnd;
-                            }
-        
-                            hour+=". óra";
-                            
-                            vueData.classView = {
-                                class:class_,
-                                hour,
-                                start:getHourInfo(classStart).start,
-                                end:getHourInfo(classEnd).end,
-                            };
-                            vueData.classViewOpen = true;
- 
-                            
-                            openThing();
-                            
-                        }
-        
-                        row.appendChild(class_elem);
-                    }
-                    
-                    
-                    
-                }
-        
-                cont.appendChild(elem);
-        
-                document.getElementById("actionbar").classList.add("show");
-                scrollToPosition();
-            }
             
         }
     }
