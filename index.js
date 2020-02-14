@@ -15,7 +15,7 @@ try {
 }
 
 
-let minutes = 10;
+let minutes = 60+30;
 
 function addMinutes(date, minutes) {
     return new Date(date.getTime() + minutes*60000);
@@ -23,11 +23,30 @@ function addMinutes(date, minutes) {
 
 async function getAll(){
     let versions = await getVersions();
+    
+    let oldVersions = JSON.parse(fs.readFileSync("./public/tables.json").toString());
+    
+
+    function getOldVerison(search){
+        for (let v of oldVersions){
+            if (search.id == v.id){
+                return v;
+            }
+        }
+    }
 
     for (let i=0; i < versions.length; i++){
         let v = versions[i];
-        console.log("generating",v.text,v.id)
-        v.tables = await generate(v.id);
+        let old = getOldVerison(v);
+
+        if (old && v.current == false){
+            console.log("skipping",v.text,v.id);
+            v.tables = old.tables;
+        } else {
+            console.log("generating",v.text,v.id)
+            v.tables = await generate(v.id);
+        }
+
     }
     return versions;
 }
