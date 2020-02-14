@@ -147,13 +147,17 @@
                 
             </div>
             <div id="actionbar" v-bind:class="{ show:tableMode }">
-                <div id="daynames_wrap">
-                    <span><a>Hétfő</a></span>
-                    <span><a>Kedd</a></span>
-                    <span><a>Szerda</a></span>
-                    <span><a>Csütörtök</a></span>
-                    <span><a>Péntek</a></span>
-                </div>
+                <span id="offline" v-bind:class="{ show: !isOnline }"><span>Offline</span></span>
+                <span id="daynames">
+                    <div id="daynames_wrap">
+                        <span><a>Hétfő</a></span>
+                        <span><a>Kedd</a></span>
+                        <span><a>Szerda</a></span>
+                        <span><a>Csütörtök</a></span>
+                        <span><a>Péntek</a></span>
+                    </div>
+                </span>
+                
             </div>
             <div id="classViewCover" v-bind:class="{ show:classViewOpen }" v-on:click="classViewOpen = false">
     
@@ -170,7 +174,7 @@
                     </div>
                 </span>
             </div>
-            <span id="offline" v-bind:class="{ show: !isOnline }">Offline</span>
+            
         </div>
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
         <script src="main.js"></script>
