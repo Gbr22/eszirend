@@ -58,8 +58,8 @@
                         <div class="time_e" v-for="n in 13">
                             <a>{{ n }}</a>
                         </div>
-                    </div><div id="window"
-                    >
+                    </div>
+                    <div id="window">
 
                         <div id="dayswrap">
                             <div v-for="(day, index) in currentTable.timetable" class="day">
@@ -90,6 +90,7 @@
                             </div>
                         </div>
                     </div>
+                    <div class="clearfix"></div>
                 </div>
                 <div id="content" class="page" v-show="tableMode && false">
                 
