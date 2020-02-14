@@ -30,7 +30,7 @@ function fetchJSON(url){
     })
 }
 let classes = [];
-let daynames = ["Hétfő","Kedd","Szerda","Csütörtök","Péntek"]
+let daynames = ["Hétfő","Kedd","Szerda","Csütörtök","Péntek"];
 let settings = {
     padding:"5px"
 }
@@ -236,7 +236,7 @@ function loadMainPage(){
 
 
 let vueData = {
-
+    daynames,
     isOnline:navigator.onLine,
     tableMode:false,
     currentTable:null,
@@ -293,6 +293,60 @@ function getColor(group){
         }
     }
 }
+function formatGroup(g,classname){
+    let shorts = {
+        "Angol":"Ang",
+        "Német":"Ném",
+        "Környezetvédelem":"♻️",
+        "Informatika":"🖱️",
+        "Mechatronika":"🛠️",
+        "Ügyvitel":"Ügyv",
+        "Közgazdaság":"Közg",
+        "Csoport":"Csop"
+    }
+    
+    let out = (g).replace("all","").replace(classname+" ","");;
+    for (p in shorts){
+        out = out.replace(p,shorts[p]);
+        out = out.replace(p.toLowerCase(),shorts[p]);
+    }
+    function trimToLang(langGroup){
+        let index = out.indexOf(langGroup)
+        if (index != -1){
+            out = out.slice(index,index+langGroup.length+1);
+        }
+    }
+    trimToLang("Ang");
+    trimToLang("Ném");
+    if (out.indexOf("mindennapos") != -1){
+        out = "";
+    }
+    
+    return out;
+}
+function shortenName(class_){
+    let name = class_.teacher;
+    if (class_.width <= 30){
+        name = name.split(" ");
+        for (let l=0; l < name.length; l++){
+            name[l] = getFirstLetter(name[l]);
+        }
+        return name.join(" ");
+    }
+    let nameArr = name.split(" ");
+    let index = nameArr.length-1;
+    while(nameArr.join(" ").length > 15){
+        if (index == -1){
+            break;
+        }
+        
+        nameArr[index] = getFirstLetter(nameArr[index]);
+        index--;
+        
+    }
+    name = nameArr.join(" ");
+    return name;
+}
 var app = new Vue({
     el: '#app',
     data: vueData,
@@ -300,7 +354,36 @@ var app = new Vue({
         loop();
     },
     methods:{
+        openClass(class_,yIndex){
+            console.log(class_,yIndex);
+
+            let classStart = yIndex+1;
+            let classEnd = yIndex+1;
+            let hour = classStart; //Hour display string
+            
+            if (class_.classLength > 1){
+                classEnd += class_.classLength-1;
+                hour += "-"+classEnd;
+            }
+
+            hour+=". óra";
+            
+            vueData.classView = {
+                class:class_,
+                hour,
+                start:getHourInfo(classStart).start,
+                end:getHourInfo(classEnd).end,
+            };
+            vueData.classViewOpen = true;
+
+            
+            openThing();
+        },
+        shortenName,
+        getBiggestClassHeight,
+        formatGroup,
         getColor,
+        isBigRow,
         formatClassRoom,
         openThing,
         getClassViewColor(){
@@ -455,38 +538,7 @@ var app = new Vue({
                         }
                         
                         
-                        function formatGroup(g){
-                            let shorts = {
-                                "Angol":"Ang",
-                                "Német":"Ném",
-                                "Környezetvédelem":"♻️",
-                                "Informatika":"🖱️",
-                                "Mechatronika":"🛠️",
-                                "Ügyvitel":"Ügyv",
-                                "Közgazdaság":"Közg",
-                                "Csoport":"Csop"
-                            }
-                            console.log("display",display);
-                            let out = (g).replace("all","")
-                            .replace(display,"");
-                            for (p in shorts){
-                                out = out.replace(p,shorts[p]);
-                                out = out.replace(p.toLowerCase(),shorts[p]);
-                            }
-                            function trimToLang(langGroup){
-                                let index = out.indexOf(langGroup)
-                                if (index != -1){
-                                    out = out.slice(index,index+langGroup.length+1);
-                                }
-                            }
-                            trimToLang("Ang");
-                            trimToLang("Ném");
-                            if (out.indexOf("mindennapos") != -1){
-                                out = "";
-                            }
-                            
-                            return out;
-                        }
+                        
                         
                         if (getColor(class_.group)){
                             class_elem.style.backgroundColor = getColor(class_.group);

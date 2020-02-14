@@ -53,7 +53,45 @@
                         <a v-on:click="openTable(t)">{{ t.class }}</a>
                     </span>
                 </div>
-                <div id="content" class="page" v-show="tableMode">
+                <div id="tableView" class="page" v-if="currentTable && tableMode">
+                    <div id="time">
+                        <div class="time_e" v-for="n in 13">
+                            <a>{{ n }}</a>
+                        </div>
+                    </div><div id="window"
+                    >
+
+                        <div id="dayswrap">
+                            <div v-for="(day, index) in currentTable.timetable" class="day">
+                                <a class="dayname">{{ daynames[index] }}</a>
+                                
+                                <div class="row" v-for="(row, yIndex) in day" v-bind:class="{ toosmall: isBigRow(row) }">
+                                    <span
+                                        v-bind:class="{ row_inner: isBigRow(row) }"
+                                        v-bind:style="{ '--height': getBiggestClassHeight(row) }"
+                                    >
+
+                                        <span  v-bind:class="{ row_inner_content: isBigRow(row) }">
+                                            <span class="class" v-for="class_ in row" 
+                                                v-bind:class="{ toosmall: isBigRow(row) }"
+                                                v-bind:style="{width:`calc(${class_.width}% - var(--padding))`, '--height':class_.classLength, left:class_.x+'%', backgroundColor: getColor(class_.group)}"
+                                                v-on:click="openClass(class_, yIndex)"
+                                            >
+                                                
+
+                                                <a class="className">{{class_.subject}}</a>
+                                                <a class="classRoom" v-html="formatClassRoom(class_.classroom)"></a>
+                                                <a class="teacher">{{shortenName(class_)}}</a>
+                                                <a class="group">{{formatGroup(class_.group, currentTable.class)}}</a>
+                                            </span>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="content" class="page" v-show="tableMode && false">
                 
                 </div>
             </div>
