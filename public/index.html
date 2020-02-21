@@ -117,6 +117,10 @@
                         <h3>Infó</h3>
                         <p id="info_class_name">{{ currentTable.class }}</p>
                         <p id="info_header">{{ currentTable.header }}</p>
+                        <p id="info_lastScrape">
+                            Frissítve:
+                            {{ timeAgo(new Date(currentTable.lastScraped)) }}
+                        </p>
                         
                     </span>
                     <h3>Súgó</h3>

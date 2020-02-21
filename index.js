@@ -78,14 +78,31 @@ function getCurrent(c){
         }
     }
 }
+function getTable(id){
+    let file = `${__dirname}/public/tables/${id}.json`;
+    if (fs.existsSync(file)){
+        let table = JSON.parse(fs.readFileSync(file));
+        table.lastScraped = fs.statSync(file).mtime;
+        return table;
+    }
 
+}
+
+app.all("/api/table/:id", (req,res)=>{
+    let c = getTable(req.params.id);
+    if (c == undefined){
+        res.sendStatus(404);
+        return;
+    }
+    res.send(JSON.stringify(c));
+});
 app.all("/api/current/:class", (req,res)=>{
     let c = getCurrent(req.params.class);
     if (c == undefined){
         res.sendStatus(404);
         return;
     }
-    res.sendFile(`${__dirname}/public/tables/${c.id}.json`);
+    res.send(JSON.stringify(getTable(c.id)));
 })
 
 app.use(express.static(__dirname + '/public'));

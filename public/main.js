@@ -347,6 +347,22 @@ function shortenName(class_){
     name = nameArr.join(" ");
     return name;
 }
+
+function timeAgo(date){
+    const intervals = [
+        { label: 'éve', seconds: 31536000 },
+        { label: 'hónapja', seconds: 2592000 },
+        { label: 'napja', seconds: 86400 },
+        { label: 'órája', seconds: 3600 },
+        { label: 'perce', seconds: 60 },
+        { label: 'másodperce', seconds: 0 }
+    ];
+      
+    const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+    const interval = intervals.find(i => i.seconds < seconds);
+    const count = Math.floor(seconds / interval.seconds);
+    return `${count} ${interval.label}`;
+}
 var app = new Vue({
     el: '#app',
     data: vueData,
@@ -354,6 +370,7 @@ var app = new Vue({
         loop();
     },
     methods:{
+        timeAgo,
         openClass(class_,yIndex){
             console.log(class_,yIndex);
 
@@ -386,6 +403,13 @@ var app = new Vue({
         isBigRow,
         formatClassRoom,
         openThing,
+        timeSince(){
+            let units = [
+                {
+                    divide:60
+                }
+            ]
+        },
         getClassViewColor(){
             let default_ = '#e4e4e4';
             if (!this.classView){
@@ -415,7 +439,7 @@ var app = new Vue({
             let id = tableInfo.id;
         
         
-            let url = "/tables/"+id.toString().replace("*","star")+".json";
+            let url = "/api/table/"+id;
         
             if (version.current){
                 url = "/api/current/"+tableInfo.class;

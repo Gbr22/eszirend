@@ -631,6 +631,10 @@ input, button {
     text-align: center;
     margin: 0;
 }
+#info_lastScrape {
+    text-align: center;
+    font-size: 18px;
+}
 #help_win {
     /*pointer-events: auto;*/
 
