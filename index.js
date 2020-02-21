@@ -5,6 +5,8 @@ const app = express()
 
 const fs = require("fs");
 
+const util = require("./util");
+
 const getVersions = require("./scrapeV2/getVersions");
 
 
@@ -65,31 +67,11 @@ async function inter(){
 }
 inter();
 
-function getCurrent(c){
-    let versions = JSON.parse(fs.readFileSync("./public/tables.json"));
-    for (let v of versions){
-        if (v.current){
-            for (let t of v.tables){
-                if (t.class == c){
-                    return t;
-                }
-            }
-            break;
-        }
-    }
-}
-function getTable(id){
-    let file = `${__dirname}/public/tables/${id}.json`;
-    if (fs.existsSync(file)){
-        let table = JSON.parse(fs.readFileSync(file));
-        table.lastScraped = fs.statSync(file).mtime;
-        return table;
-    }
 
-}
+
 
 app.all("/api/table/:id", (req,res)=>{
-    let c = getTable(req.params.id);
+    let c = util.getTable(req.params.id);
     if (c == undefined){
         res.sendStatus(404);
         return;
@@ -97,12 +79,12 @@ app.all("/api/table/:id", (req,res)=>{
     res.send(JSON.stringify(c));
 });
 app.all("/api/current/:class", (req,res)=>{
-    let c = getCurrent(req.params.class);
+    let c = util.getCurrentTableOfClass(req.params.class);
     if (c == undefined){
         res.sendStatus(404);
         return;
     }
-    res.send(JSON.stringify(getTable(c.id)));
+    res.send(JSON.stringify(util.getTable(c.id)));
 })
 
 app.use(express.static(__dirname + '/public'));
