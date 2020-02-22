@@ -29,7 +29,7 @@ async function getAll(){
     let oldVersions = [];
 
     try {
-        JSON.parse(fs.readFileSync("./public/tables.json").toString());
+        oldVersions = JSON.parse(fs.readFileSync("./public/tables.json").toString());
     } catch(err){
         console.log("tables.json does not exist");
     }
