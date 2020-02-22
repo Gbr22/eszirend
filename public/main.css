@@ -49,15 +49,22 @@ input, button {
     padding-bottom: 70px;
     height: max-content;
 }
+#selectClass {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 .classSelector {
     position: relative;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: calc(18vw + 25px);
     height: calc(18vw + 25px);
     margin: 8px;
-    font-size: calc(4vw + 5px);
+    font-size: calc(4vw + 6px);
     background-color: #ffffff;
-    border-radius: 8px;
+    border-radius: 13px;
     cursor: pointer;
     box-shadow: 0 .3rem 3rem rgba(0,0,0,.05)!important;
     -webkit-touch-callout: none; /* iOS Safari */
@@ -86,19 +93,10 @@ input, button {
                                   supported by Chrome and Opera */
 }
 .classSelector a {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     margin: auto;
-    height: 100%;
-    line-height: calc(18vw + 25px);
-    width: max-content;
-    vertical-align: middle;
     display: inline-block;
-    font-family: 'Montserrat', sans-serif;
-    color: #242424;
+    font-family: Roboto;
+    color: #484848;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
      -khtml-user-select: none; /* Konqueror HTML */
@@ -312,21 +310,17 @@ input, button {
     height: var(--row-height);
     
     padding: 0;
-    padding-right: 20px;
     margin: 0px;
     margin-right: 5px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     position: relative;
 }
 .time_e a {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     margin: auto;
-    height: max-content;
-    width: max-content;
     font-size: 20px;
 }
 .dayname {
@@ -602,6 +596,9 @@ input, button {
     margin-left: 0;
     margin-right: 0;
 }
+#help_win h3.credit {
+    margin-bottom: 0;
+}
 #profile_wrap {
     width: 100%;
     display: block;
@@ -806,15 +803,15 @@ input, button {
     display: inline-block;
     margin: 0 auto;
 }
-.version-select .selected, .version-select .options {
+.version-select .selectedOption, .version-select .options {
     background-color: white;
     border-radius: 16px;
-    font-family: Helvetica, sans-serif;
-    font-size: 13px;
-
+    font-family: 'Roboto';
+    font-size: 15px;
+    color: #242424;
     
 }
-.version-select .selected {
+.version-select .selectedOption {
     
     
     outline: 0;
@@ -841,12 +838,12 @@ input, button {
     margin-top: 10px;
     z-index: 8;
     overflow: hidden;
-    border: 1px solid #dadada;
+    /* border: 1px solid #dadada; */
     display: none;
 }
 .version-select.open .options {
     display: block;
-    box-shadow: 0 .3rem 3rem rgba(0,0,0,.20)!important;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,.10)!important;
 }
 .version-select .option:first-child {
     border-top: none;
@@ -859,7 +856,8 @@ input, button {
     border-radius: 0;
 }
 .version-select .option.selected {
-    background-color: rgba(0, 0, 0, 0.1);
+    /* background-color: rgba(0, 0, 0, 0.1); */
+    background-color: #0066ff10;
 }
 
 #actionbar .days {

@@ -4,6 +4,7 @@
         <title>ESZI Órarend</title>
         <link rel="stylesheet" type="text/css" href="main.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <meta name="theme-color" content="#0066ff">
@@ -38,7 +39,7 @@
                 <div id="homepage" class="page" v-if="!tableMode">
                     <div class="section">
                         <div class="version-select" v-bind:class="{ open: versionSelectOpen }">
-                            <span class="selected"  v-on:click="versionSelectOpen = !versionSelectOpen">
+                            <span class="selectedOption"  v-on:click="versionSelectOpen = !versionSelectOpen">
                                 {{ formatVersionText(selectedVersion) }}
                             </span>
                             <span class="options">
@@ -49,9 +50,12 @@
                             </span>
                         </div>
                     </div>
-                    <span v-for="t in selectedVersion.tables" class="classSelector" v-bind:class="{ king:isKing(t.class) }">
-                        <a v-on:click="openTable(t)">{{ t.class }}</a>
-                    </span>
+                    <div id="selectClass">
+                        <span v-for="t in selectedVersion.tables" class="classSelector" v-bind:class="{ king:isKing(t.class) }">
+                            <a v-on:click="openTable(t)">{{ t.class }}</a>
+                        </span>
+                    </div>
+                    
                 </div>
                 <div id="tableView" class="page" v-if="currentTable && tableMode">
                     <div id="time">
@@ -139,13 +143,8 @@
                         </li>
                         <p><i>Egy órára koppintva több információt tekinthetsz meg róla</i></p>
                         <p><i>Az oldal internet nélkül is működik</i></p>
-                        <p><i>Ha nem frissül az órarend pródáld törölni a gyorsítótárát (cache) a böngésződnek</i></p>
                     </ul>
-                    <h3>Készítette</h3>
-                    <span id="profile_wrap">
-                        <img src="https://github.com/Gbr22.png">
-                    </span>
-                    
+                    <h3 class="credit">Készítette</h3>
                     <p id="credit"><a href="https://www.facebook.com/gabor.krisko.22" target="_blank">Kriskó Gábor</a></p>
                 </span>
                 
