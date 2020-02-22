@@ -73,8 +73,10 @@ let loop = function(){
         vueData.isOnline = navigator.onLine;
     }
 
-
-    vueData.selectedDay = getSelectedDay();
+    let selectedDay = getSelectedDay();
+    if (selectedDay){
+        vueData.selectedDay = selectedDay;
+    }
 
     let e = document.getElementById("dayswrap");
     if (e != null){
@@ -396,9 +398,13 @@ function timeAgo(date){
     return `${count} ${interval.label}`;
 }
 
-function changeToDay(day){
+function changeToDay(day,instant){
     let e = document.getElementById("dayswrap");
-    e.scrollTo({left:e.scrollWidth/5*day, behavior: 'smooth'});
+    let options = {left:e.scrollWidth/5*day};
+    if (!instant){
+        options.behavior='smooth';
+    }
+    e.scrollTo(options);
 }
 function getSelectedDay(){
     let e = document.getElementById("dayswrap");
@@ -498,7 +504,14 @@ var app = new Vue({
             let json = await fetchJSON(url);
             this.currentTable = json;
 
+            let today = (new Date()).getDay()-1;
+
             this.tableMode = true;
+
+            Vue.nextTick(function(){
+                changeToDay(vueData.selectedDay || today,true);
+            });
+
             loadingTable = false;
 
             document.getElementById("loader").classList.add("hidden");
