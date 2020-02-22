@@ -71,8 +71,46 @@ module.exports = function(svg){
         if (text.length)
         timetable[x][y-2].push(thisclass);
     }
+
+    let timeTexts = [];
+    for (let text of texts){
+        if (text.textContent && text.textContent.match(/\d:\d\d/) != null){
+            timeTexts.push(text);
+        }
+    }
+    let hourNames = [];
+    let hourNameStrings = [];
+    for (let text of texts){
+        if (text.textContent && text.textContent.match(/\d:\d\d/) == null){
+            if (text.getAttribute("x") == timeTexts[0].getAttribute("x")){
+                hourNames.push(text);
+                hourNameStrings.push(text.textContent);
+            }
+        }
+    }
+    function sortNumber(a, b) {
+        return a - b;
+    }
+    hourNameStrings.map((s)=>{return parseInt(s)}).sort(sortNumber);
+
+    function yCompare(a,b){
+        return parseFloat(a.getAttribute("y")) - parseFloat(b.getAttribute("y"));
+    }
+    timeTexts.sort(yCompare);
+
+    let hourLabels = [];
+
+    for (let i=0; i < timeTexts.length; i++){
+        let text = timeTexts[i];
+
+        hourLabels.push({
+            hour: hourNameStrings[i],
+            label: text.textContent
+        })
+    }
     
     props.timetable = timetable;
+    props.hourLabels = hourLabels;
     
     console.log("done",props.class);
     return props;

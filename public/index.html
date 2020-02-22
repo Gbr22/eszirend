@@ -55,8 +55,8 @@
                 </div>
                 <div id="tableView" class="page" v-if="currentTable && tableMode">
                     <div id="time">
-                        <div class="time_e" v-for="n in 13">
-                            <a>{{ n }}</a>
+                        <div class="time_e" v-for="hour in currentTable.hourLabels">
+                            <a>{{ hour.hour }}</a>
                         </div>
                     </div>
                     <div id="window">

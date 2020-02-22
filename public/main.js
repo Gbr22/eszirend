@@ -154,64 +154,6 @@ function getBiggestClassHeight(row){
     }
     return h;
 }
-var times = [
-    {//0
-        start:"7:00",
-        length: 45
-    },
-    {//1
-        start:"7:50",
-        length: 45
-    },
-    {//2
-        start:"8:45",
-        length: 45
-    },
-    {//3
-        start:"9:40",
-        length: 45
-    },
-    {//4
-        start:"10:35",
-        length: 45
-    },
-    {//5
-        start:"11:35",
-        length: 45
-    },
-    {//6
-        start:"12:35",
-        length: 45
-    },
-    {//7
-        start:"13:30",
-        length: 45
-    },
-    {//8
-        start:"14:20",
-        length: 45
-    },
-    {//9
-        start:"15:10",
-        length: 45
-    },
-    {//10
-        start:"16:00",
-        length: 45
-    },
-    {//11
-        start:"16:50",
-        length: 45
-    },
-    {//12
-        start:"17:40",
-        length: 45
-    },
-    {//13
-        start:"18:30",
-        length: 45
-    },
-];
 function assignCopy(src) {
     return Object.assign({}, src);
 }
@@ -428,22 +370,31 @@ var app = new Vue({
         openClass(class_,yIndex){
             console.log(class_,yIndex);
 
-            let classStart = yIndex+1;
-            let classEnd = yIndex+1;
-            let hour = classStart; //Hour display string
-            
+            let classStartI = yIndex;
+            let classEndI = yIndex;
+
             if (class_.classLength > 1){
-                classEnd += class_.classLength-1;
-                hour += "-"+classEnd;
+                classEndI += class_.classLength-1;
+            }
+
+            let classStart = this.currentTable.hourLabels[classStartI];
+            let classEnd = this.currentTable.hourLabels[classEndI];
+
+            let hour = classStart.hour; //Hour display string
+            if (class_.classLength > 1){
+                hour+="-"+classEnd.hour;
             }
 
             hour+=". óra";
             
+            let startTime = classStart.label.split("-")[0].trim();
+            let endTime = classEnd.label.split("-")[1].trim();
+
             vueData.classView = {
                 class:class_,
                 hour,
-                start:getHourInfo(classStart).start,
-                end:getHourInfo(classEnd).end,
+                start:startTime,
+                end:endTime,
             };
             vueData.classViewOpen = true;
 
