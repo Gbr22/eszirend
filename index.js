@@ -26,7 +26,13 @@ function addMinutes(date, minutes) {
 async function getAll(){
     let versions = await getVersions();
     
-    let oldVersions = JSON.parse(fs.readFileSync("./public/tables.json").toString());
+    let oldVersions = [];
+
+    try {
+        JSON.parse(fs.readFileSync("./public/tables.json").toString());
+    } catch(err){
+        console.log("tables.json does not exist");
+    }
     
 
     function getOldVerison(search){
