@@ -74,7 +74,7 @@ let loop = function(){
     }
 
     let selectedDay = getSelectedDay();
-    if (selectedDay){
+    if (selectedDay != null){
         vueData.selectedDay = selectedDay;
     }
 
