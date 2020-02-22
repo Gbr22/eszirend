@@ -861,3 +861,45 @@ input, button {
 .version-select .option.selected {
     background-color: rgba(0, 0, 0, 0.1);
 }
+
+#actionbar .days {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: 0 30px;
+    position: relative;
+}
+#actionbar .days button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    
+    border: none;
+    background-color: transparent;
+    font-weight: bold;
+    font-size: 15px;
+
+    transition: color 0.1s ease-in-out;
+}
+#daysLine {
+    height: 3px;
+    width: 20%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--theme-color);
+    border-radius: 8px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    
+    transition-timing-function: ease-out;
+    will-change: transform;
+    transition-duration: 100ms;
+}
+#actionbar .days button.active {
+    color: var(--theme-color);
+}

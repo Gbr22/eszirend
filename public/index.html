@@ -152,7 +152,12 @@
             </div>
             <div id="actionbar" v-bind:class="{ show:tableMode }">
                 <span id="offline" v-bind:class="{ show: !isOnline }"><span>Offline</span></span>
-                <span id="daynames">
+                <div class="days">
+                    <span id="daysLine"
+                        v-bind:style="{ 'transform': `translate(${500 / dayViewScroll}%,0) translateZ(0)` }"></span>
+                    <button v-for="(d, index) in days" v-on:click="changeToDay(index)" v-bind:class="{ active:isSelectedDay(index) }">{{ d.short }}</button>
+                </div>
+                <!-- <span id="daynames">
                     <div id="daynames_wrap">
                         <span><a>Hétfő</a></span>
                         <span><a>Kedd</a></span>
@@ -160,7 +165,7 @@
                         <span><a>Csütörtök</a></span>
                         <span><a>Péntek</a></span>
                     </div>
-                </span>
+                </span> -->
                 
             </div>
             <div id="classViewCover" v-bind:class="{ show:classViewOpen }" v-on:click="classViewOpen = false">

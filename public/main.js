@@ -63,19 +63,28 @@ function scrollToPosition(){
 }
 
 let loop = function(){
-    if (document.getElementById("dayswrap") != undefined){
+    /* if (document.getElementById("dayswrap") != undefined){
         let precent = document.getElementById("dayswrap").scrollLeft / document.getElementById("dayswrap").scrollWidth
         let pos = document.getElementById("daynames_wrap").scrollWidth * precent * -1;
         document.getElementById("daynames_wrap").style.transform = "translateX("+pos+"px)";
-    }
+    } */
 
     if (vueData.isOnline != navigator.onLine){
         vueData.isOnline = navigator.onLine;
     }
 
+
+    vueData.selectedDay = getSelectedDay();
+
+    let e = document.getElementById("dayswrap");
+    if (e != null){
+        vueData.dayViewScroll = (e.scrollWidth/e.scrollLeft);
+    }
+    
+
+
     requestAnimationFrame(loop);
 }
-
 
 function openThing(){
     history.pushState({},"");
@@ -237,6 +246,7 @@ function loadMainPage(){
 
 let vueData = {
     daynames,
+    selectedDay:0,
     isOnline:navigator.onLine,
     tableMode:false,
     currentTable:null,
@@ -245,11 +255,33 @@ let vueData = {
     classView:null,
     classViewOpen:false,
     versions:[],
+    dayViewScroll:0,
     selectedVersion: {
         text:"",
         tables:[]
-    }
-    
+    },
+    days:[
+        {
+            short:"H",
+            full:"Hétfő"
+        },
+        {
+            short:"K",
+            full:"Kedd"
+        },
+        {
+            short:"Sz",
+            full:"Szerda"
+        },
+        {
+            short:"Cs",
+            full:"Csütörtök"
+        },
+        {
+            short:"P",
+            full:"Péntek"
+        }
+    ]
 }
 function formatClassRoom(string_){
     let s = string_.split(" /max")[0]; 
@@ -363,6 +395,18 @@ function timeAgo(date){
     const count = Math.floor(seconds / interval.seconds);
     return `${count} ${interval.label}`;
 }
+
+function changeToDay(day){
+    let e = document.getElementById("dayswrap");
+    e.scrollTo({left:e.scrollWidth/5*day, behavior: 'smooth'});
+}
+function getSelectedDay(){
+    let e = document.getElementById("dayswrap");
+    if (e != null){
+        return Math.round(e.scrollLeft/(e.scrollWidth/5));
+    }
+    return null;
+}
 var app = new Vue({
     el: '#app',
     data: vueData,
@@ -371,6 +415,10 @@ var app = new Vue({
     },
     methods:{
         timeAgo,
+        changeToDay,
+        isSelectedDay(index){
+            return index == this.selectedDay;
+        },
         openClass(class_,yIndex){
             console.log(class_,yIndex);
 
