@@ -189,6 +189,17 @@ function loadMainPage(){
 
 
 let vueData = {
+    tableTypes:{
+        class:{
+            name:"Osztályok",
+            versions:[]
+        },
+        teacher:{
+            name:"Tanárok",
+            versions:[]
+        }
+    },
+    tableType:"class",
     daynames,
     selectedDay:0,
     isOnline:navigator.onLine,
@@ -355,6 +366,41 @@ function getSelectedDay(){
     }
     return null;
 }
+function getSelectedFor(tableType){
+    
+
+    
+    let type = vueData.tableTypes[tableType];
+    let versions = type.versions;
+
+    function getCurrent(){
+        for (let v of versions){
+            if (v.current){
+                return v;
+            }
+        }
+    }
+
+    if (!vueData.selectedVersion){
+        return getCurrent();
+    }
+
+    let id = vueData.selectedVersion.id;
+    for (let v of versions){
+        if (v.id == id){
+            return v;
+        }
+    }
+    return getCurrent();
+}
+
+function changeTableMode(selectType){
+    vueData.tableType = selectType;
+    let versions = vueData.tableTypes[selectType].versions;
+    vueData.versions = versions;
+
+    vueData.selectedVersion = getSelectedFor(selectType);
+}
 var app = new Vue({
     el: '#app',
     data: vueData,
@@ -367,6 +413,8 @@ var app = new Vue({
         isSelectedDay(index){
             return index == this.selectedDay;
         },
+        getSelectedFor,
+        changeTableMode,
         openClass(class_,yIndex){
             console.log(class_,yIndex);
 
@@ -426,6 +474,9 @@ var app = new Vue({
             return v.text.replace(v.info,"").replace("()","").trim();
         },
         isKing(classname){
+            if (classname == undefined){
+                return false;
+            }
             let yr = (9+Math.floor((((new Date()) - new Date("2018. 09. 01")) / 1000 / 60 / 60 / 24 / 365)));
             return classname.startsWith(yr) && classname.endsWith("B");
         },
@@ -433,8 +484,14 @@ var app = new Vue({
             this.selectedVersion = v;
             this.versionSelectOpen = false
         },
-        async openTable(tableInfo){
+        async openTable(tableInfo,mode){
+
+            if (mode == undefined){
+                mode = this.tableType;
+            }
             
+            console.log("opening..");
+
             if (loadingTable){
                 return;
             }
@@ -443,16 +500,18 @@ var app = new Vue({
             let version = this.selectedVersion;
             let id = tableInfo.id;
         
+            
         
-            let url = "/api/table/"+id;
+            let url = `/api/table/${mode}/${id}`;
         
             if (version.current){
-                url = "/api/current/"+tableInfo.class;
+                url = `/api/current/${mode}/${tableInfo.display}`;
             }
         
             loadingTable = true;
             document.getElementById("loader").classList.remove("hidden");
             let json = await fetchJSON(url);
+            json.tableType = mode;
             this.currentTable = json;
 
             let today = (new Date()).getDay()-1;
@@ -462,7 +521,7 @@ var app = new Vue({
             Vue.nextTick(function(){
                 changeToDay(vueData.selectedDay || today,true);
             });
-
+            document.documentElement.scrollTop = 0;
             loadingTable = false;
 
             document.getElementById("loader").classList.add("hidden");
@@ -475,18 +534,24 @@ var app = new Vue({
     }
 });
 
+
 (async ()=>{
-    let versions = await fetchJSON("tables.json");
-    vueData.versions = versions;
-    let selectedVersion;
-    
-    for (let v of versions){
-        if (v.current){
-            selectedVersion = v;
+    Promise.all([fetchJSON("tables.json"),fetchJSON("teachers.json")]).then(function(values){
+        vueData.tableTypes.class.versions = values[0];
+        vueData.tableTypes.teacher.versions = values[1];
+        {
+            let versions = vueData.tableTypes.teacher.versions;
+            for (let v of versions){
+                v.tables.sort(function(a,b){
+                    return a.display.localeCompare(b.display);
+                })
+            }
         }
-    }
 
-    vueData.selectedVersion = selectedVersion;
+        changeTableMode("class");
 
-    loadMainPage();
+        loadMainPage();
+    })
+
+    
 })();

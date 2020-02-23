@@ -6,6 +6,7 @@ const app = express()
 const fs = require("fs");
 
 const util = require("./util");
+const genTeachers = require("./teachers");
 
 const getVersions = require("./scrapeV2/getVersions");
 
@@ -64,6 +65,7 @@ async function inter(){
     getAll().then(function(tables){
         console.log("all tables",tables);
         fs.writeFileSync("./public/tables.json",JSON.stringify(tables));
+        genTeachers();
 
         console.log("next update", addMinutes(new Date(), minutes) );
         setTimeout(inter, 1000*60*minutes);
@@ -76,21 +78,21 @@ inter();
 
 
 
-app.all("/api/table/:id", (req,res)=>{
-    let c = util.getTable(req.params.id);
+app.all("/api/table/:mode/:id", (req,res)=>{
+    let c = util.getTable(req.params.id,req.params.mode);
     if (c == undefined){
         res.sendStatus(404);
         return;
     }
     res.send(JSON.stringify(c));
 });
-app.all("/api/current/:class", (req,res)=>{
-    let c = util.getCurrentTableOfClass(req.params.class);
+app.all("/api/current/:mode/:softId", (req,res)=>{
+    let c = util.getCurrentTable(req.params.softId,req.params.mode);
     if (c == undefined){
         res.sendStatus(404);
         return;
     }
-    res.send(JSON.stringify(util.getTable(c.id)));
+    res.send(JSON.stringify(util.getTable(c.id,req.params.mode)));
 })
 
 app.use(express.static(__dirname + '/public'));

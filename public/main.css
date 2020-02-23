@@ -49,12 +49,19 @@ input, button {
     padding-bottom: 70px;
     height: max-content;
 }
-#selectClass {
+#selectClass, #selectTeacher {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
-.classSelector {
+.selectPage {
+    width: 100%;
+    overflow: auto;
+}
+#selectPageWrap {
+    
+}
+.classSelector, .teacherSelector {
     position: relative;
     display: flex;
     justify-content: center;
@@ -92,7 +99,7 @@ input, button {
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 }
-.classSelector a {
+.classSelector a, .teacherSelector a {
     margin: auto;
     display: inline-block;
     font-family: Roboto;
@@ -104,6 +111,9 @@ input, button {
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
+}
+.teacherSelector a {
+    font-size: 18px;
 }
 .day {
     width: 100%;
@@ -150,6 +160,12 @@ input, button {
     transition: all .5s;
     box-shadow: 0 0 0 0px red;
 }
+.typeteacher .class {
+    width: calc(100% - var(--padding)) !important;
+    left: 0 !important;
+    box-sizing: border-box;
+}
+
 .class:hover::before {
     opacity: 0.2;
 }
@@ -900,4 +916,25 @@ input, button {
 }
 #actionbar .days button.active {
     color: var(--theme-color);
+}
+
+#typeSelector {
+    display: flex;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom: 5px;
+}
+#typeSelector button {
+    background-color: transparent;
+    border: none;
+    flex-grow: 1;
+    padding: 5px;
+    font-family: 'Roboto';
+    font-size: 16px;
+    border-bottom: 3px solid #cacaca;
+    transition: border-color 0.1s ease-in-out;
+}
+#typeSelector button.selected {
+    border-bottom-color: var(--theme-color);
 }

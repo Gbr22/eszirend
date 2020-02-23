@@ -26,7 +26,7 @@ async function run(timeid){
 
         tables.push({
             header:table.header,
-            class:table.class,
+            display:table.class,
             id:id
         })
         fs.writeFileSync("public/tables/"+id+".json",JSON.stringify(table) );

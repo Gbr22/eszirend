@@ -50,14 +50,26 @@
                             </span>
                         </div>
                     </div>
-                    <div id="selectClass">
-                        <span v-for="t in selectedVersion.tables" class="classSelector" v-bind:class="{ king:isKing(t.class) }">
-                            <a v-on:click="openTable(t)">{{ t.class }}</a>
-                        </span>
+                    <div id="typeSelector">
+                        <button v-for="(obj, p) in tableTypes" v-on:click="changeTableMode(p)" v-bind:class="{ selected:tableType == p }">{{ obj.name }}</button>
+                    </div>
+                    <div id="selectPageWrap">
+                        <div id="selectClass" class="selectPage" v-show="tableType == 'class'">
+                            <span v-for="t in getSelectedFor('class').tables" class="classSelector" v-bind:class="{ king:isKing(t.display) }">
+                                <a v-on:click="openTable(t,'class')">{{ t.display }}</a>
+                            </span>
+                        </div>
+                        <div id="selectTeacher" class="selectPage" v-show="tableType == 'teacher'">
+                            <span v-for="t in getSelectedFor('teacher').tables" class="teacherSelector">
+                                <a v-on:click="openTable(t,'teacher')">{{ t.display }}</a>
+                            </span>
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
                     
+                    
                 </div>
-                <div id="tableView" class="page" v-if="currentTable && tableMode">
+                <div id="tableView" :class="'page type' + currentTable.tableType" v-if="currentTable && tableMode">
                     <div id="time">
                         <div class="time_e" v-for="hour in currentTable.hourLabels">
                             <a>{{ hour.hour }}</a>
@@ -71,6 +83,7 @@
                                 
                                 <div class="row" v-for="(row, yIndex) in day" v-bind:class="{ toosmall: isBigRow(row) }">
                                     <span
+                                        v-if="row != null"
                                         v-bind:class="{ row_inner: isBigRow(row) }"
                                         v-bind:style="{ '--height': getBiggestClassHeight(row) }"
                                     >

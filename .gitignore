@@ -1,4 +1,6 @@
+public/teachers/*.json
 public/tables/*.json
 public/classes.json
 public/tables.json
+public/teachers.json
 tmp/*
