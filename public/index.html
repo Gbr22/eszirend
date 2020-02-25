@@ -60,7 +60,12 @@
                             </span>
                         </div>
                         <div id="selectTeacher" class="selectPage" v-show="tableType == 'teacher'">
-                            <div class="experimental">Figyelem: Kísérleti!</div>
+                            <div class="experimental">
+                                <svg>
+                                    <use xlink:href="icons/experiments.svg#icon"></use>
+                                </svg>
+                                <p>Figyelem: Kísérleti!</p>
+                            </div>
                             <div id="teacherList">
                                 <span v-for="t in getSelectedFor('teacher').tables" class="teacherSelector">
                                     <a v-on:click="openTable(t,'teacher')">{{ t.display }}</a>

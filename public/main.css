@@ -946,3 +946,20 @@ input, button {
     margin: 8px auto;
     width: max-content;
 }
+.experimental svg, .experimental p {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+}
+.experimental p {
+    font-size: 17px;
+}
+.experimental svg {
+    vertical-align: top;
+    width: 20px;
+    height: 20px;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+}
