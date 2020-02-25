@@ -49,7 +49,7 @@ input, button {
     padding-bottom: 70px;
     height: max-content;
 }
-#selectClass, #selectTeacher {
+#selectClass, #teacherList {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -937,4 +937,12 @@ input, button {
 }
 #typeSelector button.selected {
     border-bottom-color: var(--theme-color);
+}
+.experimental {
+    font-family: Roboto;
+    padding: 8px 16px;
+    border-radius: 15px;
+    background-color: #ffe993;
+    margin: 8px auto;
+    width: max-content;
 }

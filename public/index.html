@@ -60,9 +60,12 @@
                             </span>
                         </div>
                         <div id="selectTeacher" class="selectPage" v-show="tableType == 'teacher'">
-                            <span v-for="t in getSelectedFor('teacher').tables" class="teacherSelector">
-                                <a v-on:click="openTable(t,'teacher')">{{ t.display }}</a>
-                            </span>
+                            <div class="experimental">Figyelem: Kísérleti!</div>
+                            <div id="teacherList">
+                                <span v-for="t in getSelectedFor('teacher').tables" class="teacherSelector">
+                                    <a v-on:click="openTable(t,'teacher')">{{ t.display }}</a>
+                                </span>
+                            </div>
                         </div>
                         <div class="clearfix"></div>
                     </div>
